@@ -68,6 +68,7 @@ class Manager {
     gamestart(){
         this.data.score = 0;
         this.field.generateTile();
+        this.field.generateTile();
         return this;
     }
     

@@ -523,22 +523,16 @@ class GraphicsEngine {
             scale(0.01, 0.01) 
             translate(${-params.tile.width/2}, ${-params.tile.width/2})
         `);
+        group.attr({"opacity": "0"});
 
         group.animate({
             "transform": 
             `
             translate(${pos[0]}, ${pos[1]}) 
             translate(${params.tile.width/2}, ${params.tile.width/2}) 
-            scale(1.00, 1.0) 
+            scale(1.0, 1.0) 
             translate(${-params.tile.width/2}, ${-params.tile.width/2})
-            translate(${-pos[0]}, ${-pos[1]}) 
-            `
-        }, 80, mina.easein, ()=>{
-
-        });
-
-        group.attr({"opacity": "0"});
-        group.animate({
+            `,
             "opacity": "1"
         }, 80, mina.easein, ()=>{
 
@@ -553,20 +547,14 @@ class GraphicsEngine {
             this.graphicsTiles.splice(this.graphicsTiles.indexOf(object), 1);
 
             group.animate({
-                "opacity": "0"
-            }, 80, mina.easein, ()=>{
-
-            });
-
-            group.animate({
                 "transform": 
                 `
                 translate(${object.pos[0]}, ${object.pos[1]}) 
                 translate(${params.tile.width/2}, ${params.tile.width/2}) 
                 scale(0.01, 0.01) 
                 translate(${-params.tile.width/2}, ${-params.tile.width/2})
-                translate(${-object.pos[0]}, ${-object.pos[1]}) 
-                `
+                `,
+                "opacity": "0"
             }, 80, mina.easein, ()=>{
                 object.element.remove();
             });

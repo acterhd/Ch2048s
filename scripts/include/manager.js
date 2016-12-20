@@ -31,7 +31,7 @@ class Manager {
             controller.graphic.showPossible(this.field.tilePossibleList(selected.tile));
             controller.graphic.showSelected(selected.tile);
 
-            if(!this.field.anyPossible()) this.graphic.showGameover();
+            
             //this.graphic.showGameover();
         };
         
@@ -50,6 +50,8 @@ class Manager {
                 this.field.generateTile();
             }
             this.data.absorbed = false;
+
+            if(!this.field.anyPossible()) this.graphic.showGameover();
         });
         this.field.ontileadd.push((tile)=>{ //when tile added
             this.graphic.pushTile(tile);

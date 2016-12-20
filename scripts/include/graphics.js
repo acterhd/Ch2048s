@@ -387,6 +387,12 @@ class GraphicsEngine {
         }
         obj.icon.attr({"xlink:href": obj.tile.data.side == 0 ? iconset[obj.tile.data.piece] : iconsetBlack[obj.tile.data.piece]});
 
+        obj.text.attr({
+            "font-size": "16px",
+            "text-anchor": "middle", 
+            "font-family": "Comic Sans MS", 
+            "color": "black"
+        });
 
         if (!style) return this;
         obj.rectangle.attr({
@@ -459,16 +465,7 @@ class GraphicsEngine {
         );
 
         let text = s.text(params.tile.width / 2, 112, "TEST");
-        text.attr({
-            "font-size": "16px",
-            "text-anchor": "middle", 
-            "font-family": "Comic Sans MS", 
-            "color": "black"
-        });
-
         let group = s.group(rect, icon, text);
-        group.transform(`translate(${pos[0]}, ${pos[1]})`);
-
         object.element = group;
         object.rectangle = rect;
         object.icon = icon;

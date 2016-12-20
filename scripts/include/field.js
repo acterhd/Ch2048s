@@ -56,34 +56,48 @@ class Field {
         let atile = tilei.tile;
 
         let possibles = !atile || atile.value == tile.value;
+        let opponent = !atile || atile.data.side != tile.data.side;
         let piece = tile.possible(lto);
         possibles = possibles && piece;
+        possibles = possibles && opponent; //Hardcore mode
 
         return possibles;
     }
 
+    notSame(){
+        let sames = [];
+        for(let tile of this.tiles){
+            if (sames.indexOf(tile.value) < 0) {
+                sames.push(tile.value);
+            } else {
+                return false;
+            }
+        }
+        return true;
+    }
+
     genPiece(exceptPawn){
         let rnd = Math.random();
-        if(rnd >= 0.0 && rnd < 0.25){
+        if(rnd >= 0.0 && rnd < 0.2){
             return 1;
         } else 
-        if(rnd >= 0.25 && rnd < 0.5){
+        if(rnd >= 0.2 && rnd < 0.4){
             return 2;
         } else 
-        if(rnd >= 0.5 && rnd < 0.75){
+        if(rnd >= 0.4 && rnd < 0.6){
             return 3;
         } else 
-        if(rnd >= 0.75 && rnd < 0.85){
+        if(rnd >= 0.6 && rnd < 0.7){
             return 4;
+        } else 
+        if(rnd >= 0.7 && rnd < 0.8){
+            return 5;
         }
-        return 5;
-
-/*
+        
         if (exceptPawn) {
             return 5;
         }
         return 0;
-*/
     }
 
     generateTile(){
@@ -103,6 +117,7 @@ class Field {
         if(notOccupied.length > 0){
             tile.data.piece = this.genPiece();
             tile.data.value = Math.random() < 0.25 ? 4 : 2;
+            tile.data.side = Math.random() < 0.5 ? 1 : 0;
 
             tile.attach(this, notOccupied[Math.floor(Math.random() * notOccupied.length)].loc); //prefer generate single
             

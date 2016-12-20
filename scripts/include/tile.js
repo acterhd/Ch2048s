@@ -37,12 +37,12 @@ let pmdirs = [
 
 
 let padirsNeg = [
-    [ 1, -1],
-    [-1, -1]
+    [ 1, 1],
+    [-1, 1]
 ];
 
 let pmdirsNeg = [
-    [ 0, -1]
+    [ 0, 1]
 ];
 
 
@@ -57,7 +57,8 @@ class Tile {
             value: 2, 
             piece: 0, 
             loc: [-1, -1], //x, y
-            prev: [-1, -1]
+            prev: [-1, -1], 
+            side: 0 //White = 0, Black = 1
         };
         this.id = tcounter++;
     }
@@ -129,10 +130,10 @@ class Tile {
     
     replaceIfNeeds(){
         if (this.data.piece == 0){
-            if (this.data.loc[1] >= this.field.data.height-1) {
-
+            if (this.data.loc[1] >= this.field.data.height-1 && this.data.side == 1) {
+                this.data.piece = this.field.genPiece(true);
             }
-            if (this.data.loc[1] <= 0) {
+            if (this.data.loc[1] <= 0 && this.data.side == 0) {
                 this.data.piece = this.field.genPiece(true);
             }
         }
@@ -167,7 +168,7 @@ class Tile {
                 ) continue;
 
                 let list = this.getDirectionTiles(d);
-                for (let m of list) {
+                for (let m of list.reverse()) {
                     if(m.loc[0] == loc[0] && m.loc[1] == loc[1]) return true;
                 }
             }
@@ -178,10 +179,10 @@ class Tile {
                 if (
                     Math.sign(loc[0] - this.loc[0]) != d[0] || 
                     Math.sign(loc[1] - this.loc[1]) != d[1]
-                ) continue;
+                ) continue; //Not possible direction
 
                 let list = this.getDirectionTiles(d);
-                for (let m of list) {
+                for (let m of list.reverse()) {
                     if(m.loc[0] == loc[0] && m.loc[1] == loc[1]) return true;
                 }
             }
@@ -192,10 +193,10 @@ class Tile {
                 if (
                     Math.sign(loc[0] - this.loc[0]) != d[0] || 
                     Math.sign(loc[1] - this.loc[1]) != d[1]
-                ) continue;
+                ) continue; //Not possible direction
 
                 let list = this.getDirectionTiles(d);
-                for (let m of list) {
+                for (let m of list.reverse()) {
                     if(m.loc[0] == loc[0] && m.loc[1] == loc[1]) return true;
                 }
             }
@@ -206,7 +207,7 @@ class Tile {
                 if (
                     Math.sign(loc[0] - this.loc[0]) != d[0] || 
                     Math.sign(loc[1] - this.loc[1]) != d[1]
-                ) continue;
+                ) continue; //Not possible direction
 
                 let list = this.getNeightborTiles(d);
                 for (let m of list) {
@@ -250,8 +251,9 @@ class Tile {
     
     getPawnAttackTiles(){
         let availables = [];
-        for(let i=0;i<padirs.length;i++){
-            let tif = this.get(padirs[i]);
+        let dirs = this.data.side == 0 ? padirs : padirsNeg;
+        for(let i=0;i<dirs.length;i++){
+            let tif = this.get(dirs[i]);
             if (tif && tif.tile) availables.push(tif);
         }
         return availables;
@@ -259,8 +261,9 @@ class Tile {
     
     getPawnMoveTiles(){
         let availables = [];
-        for(let i=0;i<pmdirs.length;i++){
-            let tif = this.get(pmdirs[i]);
+        let dirs = this.data.side == 0 ? pmdirs : pmdirsNeg;
+        for(let i=0;i<dirs.length;i++){
+            let tif = this.get(dirs[i]);
             if (tif && !tif.tile) availables.push(tif);
         }
         return availables;

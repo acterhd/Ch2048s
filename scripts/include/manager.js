@@ -9,7 +9,9 @@ class Manager {
         this.input = null;
         this.field = new Field(4, 4);
         this.data = {
-            score: 0
+            score: 0,
+            movecounter: 0,
+            absorbed: 0
         };
 
         this.onstartevent = (controller, tileinfo)=>{
@@ -32,13 +34,17 @@ class Manager {
         this.field.ontileabsorption.push((old, tile)=>{
             this.data.score += tile.value + old.value;
             tile.value *= 2;
+            this.data.absorbed = true;
         });
         this.field.ontileremove.push((tile)=>{ //when tile removed
             this.graphic.removeObject(tile);
         });
         this.field.ontilemove.push((tile)=>{ //when tile moved
             this.graphic.showMoved(tile);
-            if (Math.random() < 0.75) this.field.generateTile();
+            if (Math.random() <= 0.5 || (this.data.movecounter++) % 2 == 0 && this.data.absorbed) {
+                this.field.generateTile();
+            }
+            this.data.absorbed = false;
         });
         this.field.ontileadd.push((tile)=>{ //when tile added
             this.graphic.pushTile(tile);
@@ -67,6 +73,8 @@ class Manager {
     
     gamestart(){
         this.data.score = 0;
+        this.data.movecounter = 0;
+        this.data.absorbed = 0;
         this.field.generateTile();
         this.field.generateTile();
         return this;

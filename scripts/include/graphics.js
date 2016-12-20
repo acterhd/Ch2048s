@@ -9,6 +9,15 @@ let iconset = [
     "icons/WhiteKing.png"
 ];
 
+let iconsetBlack = [
+    "icons/BlackPawn.png",
+    "icons/BlackKnight.png",
+    "icons/BlackBishop.png",
+    "icons/BlackRook.png",
+    "icons/BlackQueen.png",
+    "icons/BlackKing.png"
+];
+
 class GraphicsEngine {
     
     constructor(svgname = "#svg"){
@@ -232,7 +241,7 @@ class GraphicsEngine {
         } else {
             obj.text.attr("fill", "black");
         }
-        obj.icon.attr({"xlink:href": iconset[obj.tile.data.piece]});
+        obj.icon.attr({"xlink:href": obj.tile.data.side == 0 ? iconset[obj.tile.data.piece] : iconsetBlack[obj.tile.data.piece]});
 
 
         if (!style) return this;

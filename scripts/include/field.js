@@ -59,7 +59,7 @@ class Field {
         let opponent = !atile || atile.data.side != tile.data.side;
         let piece = tile.possible(lto);
         possibles = possibles && piece;
-        possibles = possibles && opponent; //Hardcore mode
+        //possibles = possibles && opponent; //Hardcore mode
 
         return possibles;
     }

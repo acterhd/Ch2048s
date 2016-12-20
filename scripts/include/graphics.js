@@ -18,6 +18,16 @@ let iconsetBlack = [
     "icons/BlackKing.png"
 ];
 
+Snap.plugin(function (Snap, Element, Paper, glob) {
+    var elproto = Element.prototype;
+    elproto.toFront = function () {
+        this.prependTo(this.paper);
+    };
+    elproto.toBack = function () {
+        this.appendTo(this.paper);
+    };
+});
+
 class GraphicsEngine {
     
     constructor(svgname = "#svg"){
@@ -341,21 +351,52 @@ class GraphicsEngine {
 
     showVictory(){
         this.victoryscreen.attr({"visibility": "visible"});
+        this.victoryscreen.attr({
+            "opacity": "0"
+        });
+        this.victoryscreen.animate({
+            "opacity": "1"
+        }, 1000, mina.easein, ()=>{
+
+        });
+
         return this;
     }
 
     hideVictory(){
-        this.victoryscreen.attr({"visibility": "hidden"});
+        this.victoryscreen.attr({
+            "opacity": "1"
+        });
+        this.victoryscreen.animate({
+            "opacity": "0"
+        }, 500, mina.easein, ()=>{
+            this.victoryscreen.attr({"visibility": "hidden"});
+        });
         return this;
     }
 
     showGameover(){
         this.gameoverscreen.attr({"visibility": "visible"});
+        this.gameoverscreen.attr({
+            "opacity": "0"
+        });
+        this.gameoverscreen.animate({
+            "opacity": "1"
+        }, 1000, mina.easein, ()=>{
+
+        });
         return this;
     }
 
     hideGameover(){
-        this.gameoverscreen.attr({"visibility": "hidden"});
+        this.gameoverscreen.attr({
+            "opacity": "1"
+        });
+        this.gameoverscreen.animate({
+            "opacity": "0"
+        }, 500, mina.easein, ()=>{
+            this.gameoverscreen.attr({"visibility": "hidden"});
+        });
         return this;
     }
 
@@ -366,11 +407,19 @@ class GraphicsEngine {
         return null;
     }
     
-    changeStyleObject(obj){
+    changeStyleObject(obj, needup = false){
         let tile = obj.tile;
         let pos = this.calculateGraphicsPosition(tile.loc);
         let group = obj.element;
-        group.transform(`translate(${pos[0]}, ${pos[1]})`);
+        //group.transform(`translate(${pos[0]}, ${pos[1]})`);
+
+        if (needup) group.toFront();
+        group.animate({
+            "transform": `translate(${pos[0]}, ${pos[1]})`
+        }, 80, mina.easein, ()=>{
+            
+        });
+        obj.pos = pos;
 
         let style = null;
         for(let _style of this.params.tile.styles) {
@@ -416,7 +465,7 @@ class GraphicsEngine {
     }
 
     showMoved(tile){
-        this.changeStyle(tile);
+        this.changeStyle(tile, true);
         return this;
     }
     
@@ -467,13 +516,61 @@ class GraphicsEngine {
 
         let text = s.text(params.tile.width / 2, 112, "TEST");
         let group = s.group(rect, icon, text);
+        
+        group.transform(`
+            translate(${pos[0]}, ${pos[1]}) 
+            translate(${params.tile.width/2}, ${params.tile.width/2}) 
+            scale(0.01, 0.01) 
+            translate(${-params.tile.width/2}, ${-params.tile.width/2})
+        `);
+
+        group.animate({
+            "transform": 
+            `
+            translate(${pos[0]}, ${pos[1]}) 
+            translate(${params.tile.width/2}, ${params.tile.width/2}) 
+            scale(1.00, 1.0) 
+            translate(${-params.tile.width/2}, ${-params.tile.width/2})
+            translate(${-pos[0]}, ${-pos[1]}) 
+            `
+        }, 80, mina.easein, ()=>{
+
+        });
+
+        group.attr({"opacity": "0"});
+        group.animate({
+            "opacity": "1"
+        }, 80, mina.easein, ()=>{
+
+        });
+
+        object.pos = pos;
         object.element = group;
         object.rectangle = rect;
         object.icon = icon;
         object.text = text;
         object.remove = () => {
             this.graphicsTiles.splice(this.graphicsTiles.indexOf(object), 1);
-            object.element.remove();
+
+            group.animate({
+                "opacity": "0"
+            }, 80, mina.easein, ()=>{
+
+            });
+
+            group.animate({
+                "transform": 
+                `
+                translate(${object.pos[0]}, ${object.pos[1]}) 
+                translate(${params.tile.width/2}, ${params.tile.width/2}) 
+                scale(0.01, 0.01) 
+                translate(${-params.tile.width/2}, ${-params.tile.width/2})
+                translate(${-object.pos[0]}, ${-object.pos[1]}) 
+                `
+            }, 80, mina.easein, ()=>{
+                object.element.remove();
+            });
+
         };
 
         this.changeStyleObject(object);

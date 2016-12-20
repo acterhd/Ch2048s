@@ -92,7 +92,7 @@ class Manager {
         this.data.absorbed = 0;
         this.field.generateTile();
         this.field.generateTile();
-        this.graphic.receiveTiles();
+        //this.graphic.receiveTiles();
         this.graphic.hideGameover();
         return this;
     }

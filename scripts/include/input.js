@@ -14,11 +14,21 @@ class Input {
             onstart: [],
             onselect: [],
         };
+
+        this.restartbutton = document.querySelector("#restart");
+        this.scoreboard = document.querySelector("#score");
+
+        this.restartbutton.addEventListener("click", ()=>{
+            this.manager.restart();
+        });
     }
     
     attachManager(manager){
         this.field = manager.field;
         this.manager = manager;
+        this.field.ontileabsorption.push((old, tile)=>{
+            this.scoreboard.innerHTML = this.manager.data.score;
+        });
         return this;
     }
     

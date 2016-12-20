@@ -30,9 +30,13 @@ class Manager {
             controller.graphic.clearShowed();
             controller.graphic.showPossible(this.field.tilePossibleList(selected.tile));
             controller.graphic.showSelected(selected.tile);
+
+            if(!this.field.anyPossible()) this.graphic.showGameover();
+            //this.graphic.showGameover();
         };
         
         this.field.ontileabsorption.push((old, tile)=>{
+            this.graphic.removeObject(old);
             this.data.score += tile.value + old.value;
             tile.value *= 2;
             this.data.absorbed = true;
@@ -69,15 +73,25 @@ class Manager {
         this.graphic.createComposition();
         this.input.buildInteractionMap();
 
+
         return this;
     }
     
+    restart(){
+        this.gamestart();
+        return this;
+    }
+
     gamestart(){
+        this.graphic.clearTiles();
+        this.field.init();
         this.data.score = 0;
         this.data.movecounter = 0;
         this.data.absorbed = 0;
         this.field.generateTile();
         this.field.generateTile();
+        this.graphic.receiveTiles();
+        this.graphic.hideGameover();
         return this;
     }
     

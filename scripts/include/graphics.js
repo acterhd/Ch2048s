@@ -199,6 +199,9 @@ class GraphicsEngine {
         this.graphicsLayers[3] = {
             object: scene.group()
         };
+        this.graphicsLayers[4] = {
+            object: scene.group()
+        };
 
         let width = this.manager.field.data.width;
         let height = this.manager.field.data.height;
@@ -211,9 +214,65 @@ class GraphicsEngine {
 
         this.receiveTiles();
         this.createDecoration();
+        this.createGameOver();
         return this;
     }
     
+
+    createGameOver(){
+        let screen = this.graphicsLayers[4].object;
+        
+        let w = this.field.data.width;
+        let h = this.field.data.height;
+        let b = this.params.border;
+        let tw = (this.params.tile.width + b) * w + b;
+        let th = (this.params.tile.height + b) * h + b;
+
+        let bg = screen.rect(0, 0, tw, th, 5, 5);
+        bg.attr({
+            "fill": "rgba(255, 224, 0, 0.8)"
+        });
+        let got = screen.text(tw / 2, th / 2 - 30, "Game Over");
+        got.attr({
+            "font-size": "30",
+            "text-anchor": "middle", 
+            "font-family": "Comic Sans MS"
+        })
+
+        let buttonGroup = screen.group();
+        buttonGroup.transform(`translate(${tw / 2 - 50}, ${th / 2 + 20})`);
+        buttonGroup.click(()=>{
+            this.manager.restart();
+        });
+
+        let button = buttonGroup.rect(0, 0, 100, 30);
+        button.attr({
+            "fill": "rgba(224, 192, 0, 0.8)"
+        });
+
+        let buttonText = buttonGroup.text(50, 20, "New game");
+        buttonText.attr({
+            "font-size": "15",
+            "text-anchor": "middle", 
+            "font-family": "Comic Sans MS"
+        });
+
+        this.gameoverscren = screen;
+        screen.attr({"visibility": "hidden"});
+
+        return this;
+    }
+
+    showGameover(){
+        this.gameoverscren.attr({"visibility": "visible"});
+        return this;
+    }
+
+    hideGameover(){
+        this.gameoverscren.attr({"visibility": "hidden"});
+        return this;
+    }
+
     selectObject(tile){
         for(let i=0;i<this.graphicsTiles.length;i++){
             if(this.graphicsTiles[i].tile == tile) return this.graphicsTiles[i];
@@ -260,7 +319,7 @@ class GraphicsEngine {
 
     removeObject(tile){
         let object = this.selectObject(tile);
-        if(object) object.remove();
+        if (object) object.remove();
         return this;
     }
 
@@ -287,10 +346,12 @@ class GraphicsEngine {
     }
 
     createObject(tile){
+        if (this.selectObject(tile)) return null;
+
         let object = {
             tile: tile
         };
-        
+
         let params = this.params;
         let pos = this.calculateGraphicsPosition(tile.loc);
 
@@ -377,15 +438,22 @@ class GraphicsEngine {
 
     receiveTiles(){
         let tiles = this.manager.tiles;
-        this.graphicsTiles.splice(0, this.graphicsTiles.length);
-        for(let i=0;i<tiles.length;i++){
-            this.graphicsTiles.push(this.createObject(tiles[i]));
+        for (let tile of this.graphicsTiles){
+            tile.remove();
+        }
+        //this.graphicsTiles.splice(0, this.graphicsTiles.length);
+        for(let tile of tiles){
+            if (!this.selectObject(tile)) {
+                this.graphicsTiles.push(this.createObject(tile));
+            }
         }
         return this;
     }
     
-    clearTileset(){
-        this.graphicsTiles.splice(0, this.graphicsTiles.length);
+    clearTiles(){
+        for (let tile of this.graphicsTiles){
+            if (tile) tile.remove();
+        }
         return this;
     }
     

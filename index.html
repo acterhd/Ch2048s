@@ -16,13 +16,63 @@
         </div>
         <div id="body">
             <div id="details">
-            
+                <div class="button-container">
+                <div class="scorelabel">Score: </div> 
+                <div class="scorefield" id="score">0</div> 
+                <div class="restart" id="restart">New Game</div> 
+                </div>
+                <br>
             </div>
             <div id="gamefield">
                 <svg width="600" height="600" viewport="0 0 600 600" id="svg"></svg>
             </div>
         </div>
     </div>
+
+    <style>
+        svg {
+            display: inline-block;
+        }
+
+        #container {
+            width: 1000px;
+            text-align: center;
+            margin: auto;
+        }
+
+        .scorelabel {
+            height: 20px;
+            color: rgb(192, 164, 0);
+            align-self: flex-start;
+            font-family: Comic Sans MS;
+            width: 100px;
+        }
+
+        .scorefield {
+            height: 20px;
+            align-self: flex-start;
+            font-family: Comic Sans MS;
+            border: solid 1px rgb(192, 164, 0);
+            width: 60px;
+        }
+
+        .restart {
+            width: 100px;
+            height: 30px;
+            background-color: rgb(224, 192, 0);
+            font-family: Comic Sans MS;
+            margin-left: auto;
+            text-align: center;
+        }
+
+        .button-container {
+            width: 600px;
+            display: flex;
+            margin: auto;
+            justify-content: space-between;
+            height: 30px;
+        }
+    </style>
     
     <script src="./compiled-scripts/main.js"></script>
     

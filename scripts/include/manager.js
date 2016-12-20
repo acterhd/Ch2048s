@@ -9,6 +9,7 @@ class Manager {
         this.input = null;
         this.field = new Field(4, 4);
         this.data = {
+            victory: false, 
             score: 0,
             movecounter: 0,
             absorbed: 0, 
@@ -54,7 +55,9 @@ class Manager {
             this.data.absorbed = false;
 
             if(!this.field.anyPossible()) this.graphic.showGameover();
-            if( this.checkCondition()) this.graphic.showVictory();
+            if( this.checkCondition() && !this.data.victory) {
+                this.resolveVictory();
+            }
         });
         this.field.ontileadd.push((tile)=>{ //when tile added
             this.graphic.pushTile(tile);
@@ -63,6 +66,14 @@ class Manager {
 
     get tiles(){
         return this.field.tiles;
+    }
+
+    resolveVictory(){
+        if(!this.data.victory){
+            this.data.victory = true;
+            this.graphic.showVictory();
+        }
+        return this;
     }
 
     checkCondition(){
@@ -98,6 +109,7 @@ class Manager {
         this.field.init();
         this.field.generateTile();
         this.field.generateTile();
+        this.data.victory = false;
         this.graphic.updateScore();
         return this;
     }

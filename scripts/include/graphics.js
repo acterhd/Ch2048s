@@ -236,7 +236,7 @@ class GraphicsEngine {
 
         let bg = screen.rect(0, 0, tw, th, 5, 5);
         bg.attr({
-            "fill": "rgba(255, 224, 0, 0.8)"
+            "fill": "rgba(255, 224, 224, 0.8)"
         });
         let got = screen.text(tw / 2, th / 2 - 30, "Game Over");
         got.attr({
@@ -254,7 +254,7 @@ class GraphicsEngine {
 
         let button = buttonGroup.rect(0, 0, 100, 30);
         button.attr({
-            "fill": "rgba(224, 192, 0, 0.8)"
+            "fill": "rgba(224, 192, 192, 0.8)"
         });
 
         let buttonText = buttonGroup.text(50, 20, "New game");

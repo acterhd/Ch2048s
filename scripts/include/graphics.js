@@ -437,11 +437,8 @@ class GraphicsEngine {
     }
 
     receiveTiles(){
+        this.clearTiles();
         let tiles = this.manager.tiles;
-        for (let tile of this.graphicsTiles){
-            tile.remove();
-        }
-        //this.graphicsTiles.splice(0, this.graphicsTiles.length);
         for(let tile of tiles){
             if (!this.selectObject(tile)) {
                 this.graphicsTiles.push(this.createObject(tile));

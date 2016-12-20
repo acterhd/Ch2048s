@@ -131,10 +131,14 @@ class Field {
 
     init(){
         this.tiles.splice(0, this.tiles.length);
-        this.fields.splice(0, this.fields.length);
+        //this.fields.splice(0, this.fields.length);
         for (let i=0;i<this.data.height;i++) {
             if (!this.fields[i]) this.fields[i] = [];
             for (let j=0;j<this.data.width;j++) {
+                let tile = this.fields[i][j] ? this.fields[i][j].tile : null;
+                if(tile){ //if have
+                    for (let f of this.ontileremove) f(tile);
+                }
                 let ref = Object.assign({}, this.defaultTilemapInfo); //Link with object
                 ref.tileID = -1;
                 ref.tile = null;

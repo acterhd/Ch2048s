@@ -85,11 +85,10 @@ class Manager {
     }
 
     gamestart(){
-        this.graphic.clearTiles();
-        this.field.init();
         this.data.score = 0;
         this.data.movecounter = 0;
         this.data.absorbed = 0;
+        this.field.init();
         this.field.generateTile();
         this.field.generateTile();
         //this.graphic.receiveTiles();

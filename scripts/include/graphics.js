@@ -317,7 +317,6 @@ class GraphicsEngine {
             let buttonGroup = screen.group();
             buttonGroup.transform(`translate(${tw / 2 - 105}, ${th / 2 + 20})`);
             buttonGroup.click(()=>{
-                this.manager.restart();
                 this.hideVictory();
             });
 

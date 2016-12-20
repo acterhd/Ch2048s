@@ -9,13 +9,16 @@
     
     <div id="container">
         <div id="header">
-        
+            <h1>Ch2048s</h1>
+            <h4>Chess and 2048 hybrid</h4>
+            <div id="warning">Not final version: early prototype</div>
         </div>
         <div id="navbar">
         
         </div>
         <div id="body">
             <div id="details">
+                <br>
                 <div class="button-container">
                 <div class="scorelabel">Score: </div> 
                 <div class="scorefield" id="score">0</div> 
@@ -30,10 +33,28 @@
     </div>
 
     <style>
+        body, html {
+            font-family: Comic Sans MS;
+            background-color: rgb(255, 224, 192);
+            color: rgb(64, 48, 0);
+        }
+    
         svg {
             display: inline-block;
         }
 
+        #header h1 {
+            font-size: 60px;
+        }
+        
+        #warning {
+            background-color: rgb(255, 192, 192);
+            border: solid 1px rgb(255, 128, 128);
+            text-align: left;
+            display: inline-block;
+            font-size: 14px;
+        }
+        
         #container {
             width: 1000px;
             text-align: center;
@@ -46,6 +67,7 @@
             align-self: flex-start;
             font-family: Comic Sans MS;
             width: 100px;
+            padding: 5px;
         }
 
         .scorefield {
@@ -54,13 +76,17 @@
             font-family: Comic Sans MS;
             border: solid 1px rgb(192, 164, 0);
             width: 60px;
+            text-align: left;
+            padding: 5px;
         }
 
         .restart {
             width: 100px;
-            height: 30px;
+            height: 20px;
+            padding: 5px;
             background-color: rgb(224, 192, 0);
             font-family: Comic Sans MS;
+            font-size: 14px;
             margin-left: auto;
             text-align: center;
         }

@@ -37,10 +37,11 @@ class Manager {
         };
         
         this.field.ontileabsorption.push((old, tile)=>{
-            this.graphic.removeObject(old);
             this.data.score += tile.value + old.value;
             tile.value *= 2;
             this.data.absorbed = true;
+            this.graphic.removeObject(old);
+            this.graphic.updateScore();
         });
         this.field.ontileremove.push((tile)=>{ //when tile removed
             this.graphic.removeObject(tile);
@@ -97,6 +98,7 @@ class Manager {
         this.field.init();
         this.field.generateTile();
         this.field.generateTile();
+        this.graphic.updateScore();
         return this;
     }
     

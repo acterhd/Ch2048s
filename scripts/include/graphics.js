@@ -31,6 +31,8 @@ class GraphicsEngine {
         this.snap = Snap(svgname);
         this.scene = null;
 
+        this.scoreboard = document.querySelector("#score");
+
         this.params = {
             border: 10,
             grid: {
@@ -542,6 +544,10 @@ class GraphicsEngine {
         }
         return this;
     }
+
+    updateScore(){
+        this.scoreboard.innerHTML = this.manager.data.score;
+    }
     
     attachManager(manager){
         this.field = manager.field;
@@ -556,6 +562,10 @@ class GraphicsEngine {
         this.field.ontileadd.push((tile)=>{ //when tile added
             this.pushTile(tile);
         });
+        this.field.ontileabsorption.push((old, tile)=>{
+            this.updateScore();
+        });
+
         return this;
     }
     

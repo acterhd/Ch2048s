@@ -23,12 +23,13 @@ class Manager {
             controller.graphic.showSelected(tileinfo.tile);
         };
         this.onmoveevent = (controller, selected, tileinfo)=>{
-            controller.graphic.clearShowed();
-            controller.graphic.showPossible(this.field.tilePossibleList(tileinfo.tile));
-            controller.graphic.showSelected(tileinfo.tile);
             if(this.field.possible(selected.tile, tileinfo.loc)) {
                 this.field.move(selected.loc, tileinfo.loc);
             }
+
+            controller.graphic.clearShowed();
+            controller.graphic.showPossible(this.field.tilePossibleList(tileinfo.tile));
+            controller.graphic.showSelected(tileinfo.tile);
         };
         
         this.field.ontileabsorption.push((old, tile)=>{

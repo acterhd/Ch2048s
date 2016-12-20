@@ -352,11 +352,13 @@ class GraphicsEngine {
         return this;
     }
 
-    showSelected(tile){
+    showSelected(){
+        if (!this.input.selected) return this;
+        let tile = this.input.selected.tile;
         if (!tile) return this;
         let object = this.selectVisualizer(tile.loc);
-        if(object){
-            object.area.attr({"fill": "rgba(255, 0, 0, 0.1)"});
+        if (object){
+            object.area.attr({"fill": "rgba(255, 0, 0, 0.2)"});
         }
         return this;
     }
@@ -367,7 +369,7 @@ class GraphicsEngine {
             let tile = tileinfo.tile;
             let object = this.selectVisualizer(tileinfo.loc);
             if(object){
-                object.area.attr({"fill": "rgba(0, 255, 0, 0.1)"});
+                object.area.attr({"fill": "rgba(0, 255, 0, 0.2)"});
             }
         }
         return this;

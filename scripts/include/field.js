@@ -22,6 +22,12 @@ class Field {
         this.ontileabsorption = [];
     }
     
+    checkAny(value){
+        for(let tile of this.tiles){
+            if(tile.value >= value) return true;
+        }
+        return false;
+    }
     
     anyPossible(){
         let anypossible = 0;

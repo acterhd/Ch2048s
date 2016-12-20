@@ -202,6 +202,9 @@ class GraphicsEngine {
         this.graphicsLayers[4] = {
             object: scene.group()
         };
+        this.graphicsLayers[5] = {
+            object: scene.group()
+        };
 
         let width = this.manager.field.data.width;
         let height = this.manager.field.data.height;
@@ -215,6 +218,7 @@ class GraphicsEngine {
         this.receiveTiles();
         this.createDecoration();
         this.createGameOver();
+        this.createVictory();
         return this;
     }
     
@@ -243,6 +247,7 @@ class GraphicsEngine {
         buttonGroup.transform(`translate(${tw / 2 - 50}, ${th / 2 + 20})`);
         buttonGroup.click(()=>{
             this.manager.restart();
+            this.hideGameover();
         });
 
         let button = buttonGroup.rect(0, 0, 100, 30);
@@ -257,19 +262,99 @@ class GraphicsEngine {
             "font-family": "Comic Sans MS"
         });
 
-        this.gameoverscren = screen;
+        this.gameoverscreen = screen;
         screen.attr({"visibility": "hidden"});
 
         return this;
     }
 
+
+
+    createVictory(){
+        let screen = this.graphicsLayers[5].object;
+        
+        let w = this.field.data.width;
+        let h = this.field.data.height;
+        let b = this.params.border;
+        let tw = (this.params.tile.width + b) * w + b;
+        let th = (this.params.tile.height + b) * h + b;
+
+        let bg = screen.rect(0, 0, tw, th, 5, 5);
+        bg.attr({
+            "fill": "rgba(224, 224, 256, 0.8)"
+        });
+        let got = screen.text(tw / 2, th / 2 - 30, "You won! You got " + this.manager.data.conditionValue + "!");
+        got.attr({
+            "font-size": "30",
+            "text-anchor": "middle", 
+            "font-family": "Comic Sans MS"
+        })
+
+        {
+            let buttonGroup = screen.group();
+            buttonGroup.transform(`translate(${tw / 2 + 5}, ${th / 2 + 20})`);
+            buttonGroup.click(()=>{
+                this.manager.restart();
+                this.hideVictory();
+            });
+
+            let button = buttonGroup.rect(0, 0, 100, 30);
+            button.attr({
+                "fill": "rgba(128, 128, 255, 0.8)"
+            });
+
+            let buttonText = buttonGroup.text(50, 20, "New game");
+            buttonText.attr({
+                "font-size": "15",
+                "text-anchor": "middle", 
+                "font-family": "Comic Sans MS"
+            });
+        }
+
+        {
+            let buttonGroup = screen.group();
+            buttonGroup.transform(`translate(${tw / 2 - 105}, ${th / 2 + 20})`);
+            buttonGroup.click(()=>{
+                this.manager.restart();
+                this.hideVictory();
+            });
+
+            let button = buttonGroup.rect(0, 0, 100, 30);
+            button.attr({
+                "fill": "rgba(128, 128, 255, 0.8)"
+            });
+
+            let buttonText = buttonGroup.text(50, 20, "Continue...");
+            buttonText.attr({
+                "font-size": "15",
+                "text-anchor": "middle", 
+                "font-family": "Comic Sans MS"
+            });
+        }
+
+        this.victoryscreen = screen;
+        screen.attr({"visibility": "hidden"});
+
+        return this;
+    }
+
+    showVictory(){
+        this.victoryscreen.attr({"visibility": "visible"});
+        return this;
+    }
+
+    hideVictory(){
+        this.victoryscreen.attr({"visibility": "hidden"});
+        return this;
+    }
+
     showGameover(){
-        this.gameoverscren.attr({"visibility": "visible"});
+        this.gameoverscreen.attr({"visibility": "visible"});
         return this;
     }
 
     hideGameover(){
-        this.gameoverscren.attr({"visibility": "hidden"});
+        this.gameoverscreen.attr({"visibility": "hidden"});
         return this;
     }
 

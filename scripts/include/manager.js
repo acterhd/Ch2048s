@@ -11,7 +11,8 @@ class Manager {
         this.data = {
             score: 0,
             movecounter: 0,
-            absorbed: 0
+            absorbed: 0, 
+            conditionValue: 2048
         };
 
         this.onstartevent = (controller, tileinfo)=>{
@@ -52,6 +53,7 @@ class Manager {
             this.data.absorbed = false;
 
             if(!this.field.anyPossible()) this.graphic.showGameover();
+            if( this.checkCondition()) this.graphic.showVictory();
         });
         this.field.ontileadd.push((tile)=>{ //when tile added
             this.graphic.pushTile(tile);
@@ -60,6 +62,10 @@ class Manager {
 
     get tiles(){
         return this.field.tiles;
+    }
+
+    checkCondition(){
+        return this.field.checkAny(this.data.conditionValue);
     }
 
     initUser({graphics, input}){
@@ -91,8 +97,6 @@ class Manager {
         this.field.init();
         this.field.generateTile();
         this.field.generateTile();
-        //this.graphic.receiveTiles();
-        this.graphic.hideGameover();
         return this;
     }
     

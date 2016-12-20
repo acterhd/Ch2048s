@@ -46,7 +46,7 @@ class Input {
                 let selected = field.get(object.loc);
                 if (selected) {
                     this.selected = selected;
-                    for (let f of this.port.onselect) f(this, selected);
+                    for (let f of this.port.onselect) f(this, this.selected);
                 }
             } else {
                 let selected = field.get(object.loc);

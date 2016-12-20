@@ -28,8 +28,8 @@ class Manager {
             }
 
             controller.graphic.clearShowed();
-            controller.graphic.showPossible(this.field.tilePossibleList(tileinfo.tile));
-            controller.graphic.showSelected(tileinfo.tile);
+            controller.graphic.showPossible(this.field.tilePossibleList(selected.tile));
+            controller.graphic.showSelected(selected.tile);
         };
         
         this.field.ontileabsorption.push((old, tile)=>{

@@ -44,8 +44,8 @@ class GraphicsEngine {
         this.scoreboard = document.querySelector("#score");
 
         this.params = {
-            border: 10,
-            decorationWidth: 5, 
+            border: 4,
+            decorationWidth: 10, 
             grid: {
                 width: 600, 
                 height: 600
@@ -180,18 +180,66 @@ class GraphicsEngine {
         let w = this.field.data.width;
         let h = this.field.data.height;
         let b = this.params.border;
-        let tw = (this.params.tile.width + b) * w + b;
+        let tw = (this.params.tile.width  + b) * w + b;
         let th = (this.params.tile.height + b) * h + b;
         this.params.grid.width = tw;
         this.params.grid.height = th;
         
         let decorationLayer = this.graphicsLayers[0];
-        let rect = decorationLayer.object.rect(0, 0, tw, th, 5, 5);
-        rect.attr({
-            fill: "rgb(255, 224, 192)", 
-            stroke: "rgb(128, 64, 32)",
-            "stroke-width": this.params.decorationWidth
-        });
+        {
+            let rect = decorationLayer.object.rect(0, 0, tw, th, 0, 0);
+            rect.attr({
+                fill: "rgb(240, 224, 192)"
+            });
+        }
+
+        let width = this.manager.field.data.width;
+        let height = this.manager.field.data.height;
+
+        //Decorative chess field
+        this.chessfield = [];
+        for(let y=0;y<height;y++){
+            this.chessfield[y] = [];
+            for (let x=0;x<width;x++){
+                let params = this.params;
+                let pos = this.calculateGraphicsPosition([x, y]);
+                let border = 0;//this.params.border;
+
+                let s = this.graphicsLayers[0].object;
+                let f = s.group();
+                
+                let radius = 5;
+                let rect = f.rect(
+                    0, 
+                    0, 
+                    params.tile.width + border, 
+                    params.tile.height + border,
+                    radius, radius
+                );
+                rect.attr({
+                    "fill": x % 2 != y % 2 ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.1)"
+                });
+                f.transform(`translate(${pos[0]-border/2}, ${pos[1]-border/2})`);
+                
+
+            }
+        }
+
+        {
+            let rect = decorationLayer.object.rect(
+                -this.params.decorationWidth/2, 
+                -this.params.decorationWidth/2, 
+                tw + this.params.decorationWidth,
+                th + this.params.decorationWidth, 
+                5, 
+                5
+                );
+            rect.attr({
+                fill: "transparent",
+                stroke: "rgb(128, 64, 32)",
+                "stroke-width": this.params.decorationWidth
+            });
+        }
     }
 
     createComposition(){

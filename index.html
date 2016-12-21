@@ -12,7 +12,7 @@
     <script src="./libs/snap.svg.js"></script>
     
 </head>
-<body>
+<body class="noselect">
     
     <a href="https://github.com/acterhd/ch2048s"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://camo.githubusercontent.com/82b228a3648bf44fc1163ef44c62fcc60081495e/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_red_aa0000.png"></a>
     
@@ -37,12 +37,22 @@
                 <br>
             </div>
             <div id="gamefield">
-                <svg width="600" height="600" viewport="0 0 600 600" id="svg"></svg>
+                <svg class="noselect" width="600" height="600" viewport="0 0 600 600" id="svg"></svg>
             </div>
         </div>
     </div>
 
     <style>
+        .noselect {
+          -webkit-touch-callout: none; /* iOS Safari */
+            -webkit-user-select: none; /* Chrome/Safari/Opera */
+             -khtml-user-select: none; /* Konqueror */
+               -moz-user-select: none; /* Firefox */
+                -ms-user-select: none; /* Internet Explorer/Edge */
+                    user-select: none; /* Non-prefixed version, currently
+                                          not supported by any browser */
+        }
+    
         body, html {
             font-family: Comic Sans MS;
             background-color: rgb(255, 224, 192);

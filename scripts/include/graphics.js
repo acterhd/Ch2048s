@@ -45,13 +45,14 @@ class GraphicsEngine {
 
         this.params = {
             border: 10,
+            decorationWidth: 5, 
             grid: {
                 width: 600, 
                 height: 600
             },
             tile: {
-                width: 128, 
-                height: 128, 
+                //width: 128, 
+                //height: 128, 
                 styles: [
                     {
                         condition: function(){
@@ -189,14 +190,14 @@ class GraphicsEngine {
         rect.attr({
             fill: "rgb(255, 224, 192)", 
             stroke: "rgb(128, 64, 32)",
-            "stroke-width": "8"
+            "stroke-width": this.params.decorationWidth
         });
     }
 
     createComposition(){
         this.graphicsLayers.splice(0, this.graphicsLayers.length);
         let scene = this.snap.group();
-        scene.transform("translate(5, 5)");
+        scene.transform(`translate(${this.params.decorationWidth}, ${this.params.decorationWidth})`);
 
         this.scene = scene;
         this.graphicsLayers[0] = { //Decoration
@@ -220,6 +221,11 @@ class GraphicsEngine {
 
         let width = this.manager.field.data.width;
         let height = this.manager.field.data.height;
+
+        this.params.tile.width  = (this.params.grid.width  - this.params.border * (width + 1)  - this.params.decorationWidth*2) / width;
+        this.params.tile.height = (this.params.grid.height - this.params.border * (height + 1) - this.params.decorationWidth*2) / height;
+
+
         for(let y=0;y<height;y++){
             this.visualization[y] = [];
             for (let x=0;x<width;x++){
@@ -438,7 +444,7 @@ class GraphicsEngine {
         obj.icon.attr({"xlink:href": obj.tile.data.side == 0 ? iconset[obj.tile.data.piece] : iconsetBlack[obj.tile.data.piece]});
 
         obj.text.attr({
-            "font-size": "16px",
+            "font-size": this.params.tile.width * 0.15, //"16px",
             "text-anchor": "middle", 
             "font-family": "Comic Sans MS", 
             "color": "black"
@@ -506,15 +512,18 @@ class GraphicsEngine {
             radius, radius
         );
 
+        let fillsizew = params.tile.width  * (0.5 - 0.2);
+        let fillsizeh = fillsizew;//params.tile.height * (1.0 - 0.2);
+
         let icon = s.image(
             "", 
-            32, 
-            32, 
-            params.tile.width - 64, 
-            params.tile.height - 64
+            fillsizew, 
+            fillsizeh, 
+            params.tile.width  - fillsizew * 2, 
+            params.tile.height - fillsizeh * 2
         );
 
-        let text = s.text(params.tile.width / 2, 112, "TEST");
+        let text = s.text(params.tile.width / 2, params.tile.height / 2 + params.tile.height * 0.35, "TEST");
         let group = s.group(rect, icon, text);
         
         group.transform(`

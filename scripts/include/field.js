@@ -22,6 +22,14 @@ class Field {
         this.ontileabsorption = [];
     }
     
+    get width(){
+        return this.data.width;
+    }
+
+    get height(){
+        return this.data.height;
+    }
+
     checkAny(value){
         for(let tile of this.tiles){
             if(tile.value >= value) return true;

@@ -16,10 +16,13 @@ class Input {
         };
 
         this.restartbutton = document.querySelector("#restart");
-        
+        this.undobutton = document.querySelector("#undo");
 
         this.restartbutton.addEventListener("click", ()=>{
             this.manager.restart();
+        });
+        this.undobutton.addEventListener("click", ()=>{
+            this.manager.restoreState();
         });
     }
     

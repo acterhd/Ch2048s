@@ -53,8 +53,11 @@ class Manager {
         });
         this.field.ontilemove.push((tile)=>{ //when tile moved
             this.graphic.showMoved(tile);
-            if (Math.random() <= 0.5) {
-                this.field.generateTile();
+            let c = Math.max(Math.sqrt((this.field.data.width / 4) * (this.field.data.height / 4)), 1);
+            for(let i=0;i<c;i++){
+                if (Math.random() <= 0.5) {
+                    this.field.generateTile();
+                }
             }
             this.data.absorbed = false;
 

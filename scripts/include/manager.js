@@ -51,7 +51,7 @@ class Manager {
         });
         this.field.ontilemove.push((tile)=>{ //when tile moved
             this.graphic.showMoved(tile);
-            if (Math.random() <= 0.75 || (this.data.movecounter++) % 2 == 0 && this.data.absorbed) {
+            if (Math.random() <= 0.75) {
                 this.field.generateTile();
             }
             this.data.absorbed = false;

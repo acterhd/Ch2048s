@@ -52,7 +52,7 @@ class Manager {
         });
         this.field.ontilemove.push((tile)=>{ //when tile moved
             this.graphic.showMoved(tile);
-            let c = Math.max(Math.floor(Math.sqrt((this.field.data.width / 4) * (this.field.data.height / 4))), 1);
+            let c = Math.max(Math.ceil(Math.sqrt((this.field.data.width / 4) * (this.field.data.height / 4))), 1);
             for(let i=0;i<c;i++){
                 if (Math.random() <= 0.5) {
                     this.field.generateTile();

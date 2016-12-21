@@ -38,8 +38,10 @@ class Manager {
         };
         
         this.field.ontileabsorption.push((old, tile)=>{
-            this.data.score += tile.value + old.value;
-            tile.value *= 2;
+            if (tile.data.side != old.data.side) {
+                this.data.score += tile.value + old.value;
+                tile.value *= 2;
+            }
             this.data.absorbed = true;
             this.graphic.removeObject(old);
             this.graphic.updateScore();
@@ -49,7 +51,7 @@ class Manager {
         });
         this.field.ontilemove.push((tile)=>{ //when tile moved
             this.graphic.showMoved(tile);
-            if (Math.random() <= 0.5 || (this.data.movecounter++) % 2 == 0 && this.data.absorbed) {
+            if (Math.random() <= 0.75 || (this.data.movecounter++) % 2 == 0 && this.data.absorbed) {
                 this.field.generateTile();
             }
             this.data.absorbed = false;

@@ -83,6 +83,11 @@ class Field {
     }
 
     genPiece(exceptPawn){
+        let pawnr = Math.random();
+        if (pawnr < 0.4 && !exceptPawn) {
+            return 0;
+        }
+
         let rnd = Math.random();
         if(rnd >= 0.0 && rnd < 0.2){
             return 1;
@@ -95,15 +100,8 @@ class Field {
         } else 
         if(rnd >= 0.6 && rnd < 0.7){
             return 4;
-        } else 
-        if(rnd >= 0.7 && rnd < 0.8){
-            return 5;
         }
-        
-        if (exceptPawn) {
-            return 5;
-        }
-        return 0;
+        return 5;
     }
 
     generateTile(){

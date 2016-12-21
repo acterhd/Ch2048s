@@ -8,6 +8,10 @@ This is game, inspired and cloned from [2048](https://github.com/gabrielecirulli
 
 You should move pieces by mouse or touch. Capturing same color invert piece. Capturing different color increase value up to 2x.
 
+## Playable version
+
+[Here](https://acterhd.github.io/ch2048s/)
+
 ## License
 
 Ch2048s is licensed under the [MIT license.](./LICENSE.txt)

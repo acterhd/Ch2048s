@@ -38,10 +38,10 @@ class Manager {
         };
         
         this.field.ontileabsorption.push((old, tile)=>{
-            this.data.score += tile.value + old.value;
             if (tile.data.side != old.data.side) {
                 tile.value *= 2;
             }
+            this.data.score += tile.value;
             this.data.absorbed = true;
             this.graphic.removeObject(old);
             this.graphic.updateScore();

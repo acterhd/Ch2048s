@@ -128,7 +128,7 @@ class Field {
 
         if(notOccupied.length > 0){
             tile.data.piece = this.genPiece();
-            tile.data.value = Math.random() < 0.25 ? 4 : 2;
+            tile.data.value = Math.random() < 0.1 ? 4 : 2;
             tile.data.side = Math.random() < 0.5 ? 1 : 0;
 
             tile.attach(this, notOccupied[Math.floor(Math.random() * notOccupied.length)].loc); //prefer generate single

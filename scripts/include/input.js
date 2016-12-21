@@ -26,8 +26,10 @@ class Input {
             this.manager.restoreState();
 
             this.graphic.clearShowed();
-            this.graphic.showPossible(this.field.tilePossibleList(selected.tile));
-            this.graphic.showSelected(selected.tile);
+            if(this.selected){
+                this.graphic.showPossible(this.field.tilePossibleList(this.selected.tile));
+                this.graphic.showSelected(this.selected.tile);
+            }
         });
     }
     

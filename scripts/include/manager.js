@@ -26,9 +26,8 @@ class Manager {
             controller.graphic.showSelected(tileinfo.tile);
         };
         this.onmoveevent = (controller, selected, tileinfo)=>{
-            this.saveState();
-
             if(this.field.possible(selected.tile, tileinfo.loc)) {
+                this.saveState();
                 this.field.move(selected.loc, tileinfo.loc);
             }
 

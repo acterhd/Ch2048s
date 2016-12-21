@@ -21,6 +21,8 @@ class Input {
 
         this.restartbutton.addEventListener("click", ()=>{
             this.manager.restart();
+            this.graphic.hideGameover();
+            this.graphic.hideVictory();
         });
         this.undobutton.addEventListener("click", ()=>{
             this.selected = null;
@@ -31,6 +33,9 @@ class Input {
                 this.graphic.showPossible(this.field.tilePossibleList(this.selected.tile));
                 this.graphic.showSelected(this.selected.tile);
             }
+
+            this.graphic.hideGameover();
+            this.graphic.hideVictory();
         });
 
         document.addEventListener("click", ()=>{

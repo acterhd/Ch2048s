@@ -15,6 +15,7 @@ class Input {
             onselect: [],
         };
 
+        this.clicked = false;
         this.restartbutton = document.querySelector("#restart");
         this.undobutton = document.querySelector("#undo");
 
@@ -30,6 +31,18 @@ class Input {
                 this.graphic.showPossible(this.field.tilePossibleList(this.selected.tile));
                 this.graphic.showSelected(this.selected.tile);
             }
+        });
+
+        document.addEventListener("click", ()=>{
+            if(!this.clicked) {
+                this.selected = null;
+                this.graphic.clearShowed();
+                if(this.selected){
+                    this.graphic.showPossible(this.field.tilePossibleList(this.selected.tile));
+                    this.graphic.showSelected(this.selected.tile);
+                }
+            }
+            this.clicked = false;
         });
     }
     
@@ -56,6 +69,11 @@ class Input {
         let params = graphic.params;
         let interactive = graphic.getInteractionLayer();
         let field = this.field;
+
+        let svgelement = graphic.svgel;
+        svgelement.addEventListener("click", ()=>{
+            this.clicked = true;
+        });
 
         let pos = graphic.calculateGraphicsPosition(object.loc);
         let border = this.graphic.params.border;

@@ -22,7 +22,12 @@ class Input {
             this.manager.restart();
         });
         this.undobutton.addEventListener("click", ()=>{
+            this.selected = null;
             this.manager.restoreState();
+
+            this.graphic.clearShowed();
+            this.graphic.showPossible(this.field.tilePossibleList(selected.tile));
+            this.graphic.showSelected(selected.tile);
         });
     }
     

@@ -310,24 +310,53 @@ class GraphicsEngine {
             "font-family": "Comic Sans MS"
         })
 
-        let buttonGroup = screen.group();
-        buttonGroup.transform(`translate(${tw / 2 - 50}, ${th / 2 + 20})`);
-        buttonGroup.click(()=>{
-            this.manager.restart();
-            this.hideGameover();
-        });
 
-        let button = buttonGroup.rect(0, 0, 100, 30);
-        button.attr({
-            "fill": "rgba(224, 192, 192, 0.8)"
-        });
 
-        let buttonText = buttonGroup.text(50, 20, "New game");
-        buttonText.attr({
-            "font-size": "15",
-            "text-anchor": "middle", 
-            "font-family": "Comic Sans MS"
-        });
+
+
+
+
+        {
+            let buttonGroup = screen.group();
+            buttonGroup.transform(`translate(${tw / 2 + 5}, ${th / 2 + 20})`);
+            buttonGroup.click(()=>{
+                this.manager.restart();
+                this.hideGameover();
+            });
+
+            let button = buttonGroup.rect(0, 0, 100, 30);
+            button.attr({
+                "fill": "rgba(224, 192, 192, 0.8)"
+            });
+
+            let buttonText = buttonGroup.text(50, 20, "New game");
+            buttonText.attr({
+                "font-size": "15",
+                "text-anchor": "middle", 
+                "font-family": "Comic Sans MS"
+            });
+        }
+
+        {
+            let buttonGroup = screen.group();
+            buttonGroup.transform(`translate(${tw / 2 - 105}, ${th / 2 + 20})`);
+            buttonGroup.click(()=>{
+                this.manager.restoreState();
+                this.hideGameover();
+            });
+
+            let button = buttonGroup.rect(0, 0, 100, 30);
+            button.attr({
+                "fill": "rgba(224, 192, 192, 0.8)"
+            });
+
+            let buttonText = buttonGroup.text(50, 20, "Undo");
+            buttonText.attr({
+                "font-size": "15",
+                "text-anchor": "middle", 
+                "font-family": "Comic Sans MS"
+            });
+        }
 
         this.gameoverscreen = screen;
         screen.attr({"visibility": "hidden"});

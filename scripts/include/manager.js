@@ -165,6 +165,7 @@ class Manager {
         this.field.generateTile();
         this.graphic.updateScore();
         this.states.splice(0, this.states.length);
+        if(!this.field.anyPossible()) this.gamestart(); //Prevent gameover
         return this;
     }
     

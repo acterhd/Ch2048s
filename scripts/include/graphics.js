@@ -39,6 +39,7 @@ class GraphicsEngine {
         this.graphicsTiles = [];
         this.visualization = [];
         this.snap = Snap(svgname);
+        this.svgel = document.querySelector(svgname);
         this.scene = null;
 
         this.scoreboard = document.querySelector("#score");
@@ -47,8 +48,8 @@ class GraphicsEngine {
             border: 4,
             decorationWidth: 10, 
             grid: {
-                width: 600, 
-                height: 600
+                width: parseFloat(this.svgel.clientWidth), 
+                height: parseFloat(this.svgel.clientHeight)
             },
             tile: {
                 //width: 128, 

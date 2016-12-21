@@ -89,7 +89,7 @@ class Field {
         }
 
         let rnd = Math.random();
-        if(rnd >= 0.0   && rnd < 0.3){
+        if(rnd >= 0.0 && rnd < 0.3){
             return 1;
         } else 
         if(rnd >= 0.3 && rnd < 0.6){

@@ -87,7 +87,7 @@ class Field {
         (
             same && opponent || 
             higterThanOp && opponent || 
-            lowerThanOp && both
+            lowerThanOp && nobody
         ) && piece;
 
         return possibles;

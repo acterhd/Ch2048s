@@ -40,17 +40,16 @@ class Manager {
             let oldval = old.value;
             let curval = tile.value;
             
-            if (tile.data.side != old.data.side) {
-                if (oldval == curval) {
-                    tile.value = curval * 2.0;
-                } else {
-                    tile.value = oldval;
-                }
+            if (oldval == curval) {
+                tile.value = curval * 2.0;
             } else {
-                tile.data.side = tile.data.side == 1 ? 0 : 1;
-                if (oldval >= curval) {
-                    tile.value = curval * 0.5;
-                }
+                tile.value = oldval;
+            }
+
+            if (tile.data.side != old.data.side) {
+                
+            } else {
+                tile.value *= 0.5;
             }
 
             if(tile.value <= 1) this.graphic.showGameover();

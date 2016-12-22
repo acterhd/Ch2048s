@@ -58,7 +58,7 @@ class Manager {
                 tile.data.side = tile.data.side == 0 ? 1 : 0;
 
                 if (oldval == curval) {
-                    tile.value = curval * 0.5;
+                    tile.value = oldval * 0.5;
                 } else 
                 if (oldval < curval) {
                     tile.value = oldval;

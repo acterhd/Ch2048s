@@ -34,7 +34,7 @@ class Field {
     checkAny(value, count = 1, side = -1){
         let counted = 0;
         for(let tile of this.tiles){
-            if(tile.value == value && (side < 0 || tile.value.side == side)) counted++;//return true;
+            if(tile.value == value && (side < 0 || tile.data.side == side) && tile.data.bonus == 0) counted++;//return true;
             if(counted >= count) return true;
         }
         return false;
@@ -164,9 +164,18 @@ class Field {
                 tile.data.value = Math.random() < 0.2 ? 4 : 2;
                 tile.data.bonus = 0;
 
-                let bcheck = this.checkAny(2, 1, 1) && this.checkAny(4, 1, 1);
-                let wcheck = this.checkAny(2, 1, 0) && this.checkAny(4, 1, 0);
-                tile.data.side = Math.random() < 0.5 ? 1 : 0;
+                let bcheck = this.checkAny(2, 1, 1) || this.checkAny(4, 1, 1);
+                let wcheck = this.checkAny(2, 1, 0) || this.checkAny(4, 1, 0);
+
+                if (bcheck && wcheck || !bcheck && !wcheck) {
+                    tile.data.side = Math.random() < 0.5 ? 1 : 0;
+                } else 
+                if (!bcheck){
+                    tile.data.side = 1;
+                } else 
+                if (!wcheck){
+                    tile.data.side = 0;
+                }
             }
 
             tile.attach(this, notOccupied[Math.floor(Math.random() * notOccupied.length)].loc); //prefer generate single

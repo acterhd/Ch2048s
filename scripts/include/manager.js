@@ -103,7 +103,13 @@ class Manager {
                     if(Math.random() <= 0.25) this.field.generateTile();
                 }
             }
-            while(!(this.field.checkAny(2, 2) || this.field.checkAny(4, 2))) {
+            while(!(
+                this.field.checkAny(2, 1, 0) &&   
+                this.field.checkAny(2, 1, 1) || 
+                
+                this.field.checkAny(4, 1, 0) && 
+                this.field.checkAny(4, 1, 1)
+            )) {
                 if (!this.field.generateTile()) break;
             }
             this.data.absorbed = false;

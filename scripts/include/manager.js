@@ -103,19 +103,18 @@ class Manager {
                     if(Math.random() <= 0.25) this.field.generateTile();
                 }
             }
+            this.data.absorbed = false;
+
             while(!(
                 this.field.checkAny(2, 1, 0) &&   
                 this.field.checkAny(2, 1, 1) || 
                 
                 this.field.checkAny(4, 1, 0) && 
                 this.field.checkAny(4, 1, 1)
-            )) {
+            ) || 
+                !this.field.anyPossible()
+            ) {
                 if (!this.field.generateTile()) break;
-            }
-            this.data.absorbed = false;
-
-            while (!this.field.anyPossible()) {
-                if(!this.field.generateTile()) break;
             }
             if (!this.field.anyPossible()) this.graphic.showGameover();
 

@@ -74,6 +74,7 @@ class Field {
         let possibles = piece;
 
         let opponent = atile.data.side != tile.data.side;
+        let owner = !opponent; //Also possible owner
         let both = true;
 
         let same = atile.value == tile.value;

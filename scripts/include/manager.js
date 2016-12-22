@@ -69,7 +69,7 @@ class Manager {
 
             if(tile.value <= 1) this.graphic.showGameover();
             
-            this.data.score += oldval;
+            this.data.score += tile.value;
             this.data.absorbed = true;
             this.graphic.removeObject(old);
             this.graphic.updateScore();

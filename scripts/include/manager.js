@@ -81,8 +81,12 @@ class Manager {
             this.graphic.showMoved(tile);
             let c = Math.max(Math.ceil(Math.sqrt((this.field.data.width / 4) * (this.field.data.height / 4))), 1);
             for(let i=0;i<c;i++){
-                if (Math.random() <= 0.5) {
+                if (!this.data.absorbed) {
                     this.field.generateTile();
+                } else {
+                    while(!(this.field.checkAny(2, 2) || this.field.checkAny(4, 2))) {
+                        if (!this.field.generateTile()) break;
+                    }
                 }
             }
             this.data.absorbed = false;

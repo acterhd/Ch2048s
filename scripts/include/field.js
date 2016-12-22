@@ -30,9 +30,11 @@ class Field {
         return this.data.height;
     }
 
-    checkAny(value){
+    checkAny(value, count = 1){
+        let counted = 0;
         for(let tile of this.tiles){
-            if(tile.value >= value) return true;
+            if(tile.value == value) counted++;//return true;
+            if(counted >= count) return true;
         }
         return false;
     }

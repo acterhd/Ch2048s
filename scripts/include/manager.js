@@ -40,32 +40,34 @@ class Manager {
             let oldval = old.value;
             let curval = tile.value;
             
-            
+            let opponent = tile.data.side != old.data.side;
+            let owner = !opponent;
 
-            if (tile.data.side != old.data.side) {
+            if (opponent) {
                 if (oldval == curval) {
                     tile.value = oldval * 2.0;
                 } else 
                 if (oldval < curval) {
-                    tile.value = oldval;
+                    tile.value = curval;
                 } else {
                     tile.value = oldval;
                 }
-            } else {
+            } 
+
+            if (owner) {
                 tile.data.side = tile.data.side == 0 ? 1 : 0;
 
                 if (oldval == curval) {
                     tile.value = curval * 0.5;
                 } else 
                 if (oldval < curval) {
-                    tile.value = curval;
+                    tile.value = oldval;
                 } else {
                     tile.value = curval;
                 }
             }
 
             if(tile.value <= 1) this.graphic.showGameover();
-            
             
             this.data.score += oldval;
             this.data.absorbed = true;

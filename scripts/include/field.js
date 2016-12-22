@@ -76,17 +76,18 @@ class Field {
         let opponent = atile.data.side != tile.data.side;
         let owner = !opponent; //Also possible owner
         let both = true;
+        let nobody = false;
 
         let same = atile.value == tile.value;
-        let higter = tile.value * 2 == atile.value;
-        let lower = atile.value * 2 == tile.value;
+        let higterThanOp = atile.value * 2 == tile.value;
+        let lowerThanOp = tile.value * 2 == atile.value;
 
         //Settings with possible oppositions
         possibles = possibles && 
         (
             same && opponent || 
-            higter && opponent || 
-            lower && both
+            higterThanOp && both || 
+            lowerThanOp && both
         ) && piece;
 
         return possibles;

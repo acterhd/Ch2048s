@@ -45,7 +45,7 @@ class Manager {
 
             if (opponent) {
                 if (oldval == curval) {
-                    tile.value = oldval * 2.0;
+                    tile.value = curval * 2.0;
                 } else 
                 if (oldval < curval) {
                     tile.value = oldval;
@@ -58,12 +58,12 @@ class Manager {
                 tile.data.side = tile.data.side == 0 ? 1 : 0;
 
                 if (oldval == curval) {
-                    tile.value = oldval * 0.5;
+                    tile.value = curval * 2.0;
                 } else 
                 if (oldval < curval) {
                     tile.value = oldval;
                 } else {
-                    tile.value = curval;
+                    tile.value = oldval;
                 }
             }
 

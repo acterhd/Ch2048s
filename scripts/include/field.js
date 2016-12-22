@@ -68,11 +68,17 @@ class Field {
 
         let tilei = this.get(lto);
         let atile = tilei.tile;
-
-        let possibles = !atile || atile.value == tile.value;
-        let opponent = !atile || atile.data.side != tile.data.side;
         let piece = tile.possible(lto);
-        possibles = possibles && piece;
+
+        if (!atile) return piece;
+
+        let same = atile.value == tile.value;
+        let opponent = atile.data.side != tile.data.side;
+        let less = !opponent && (atile.data.value * 2) == tile.data.value || opponent && same;
+
+        let possibles = less && piece /*&& oppositeKing*/;
+
+        //
         //possibles = possibles && opponent; //Hardcore mode
 
         return possibles;

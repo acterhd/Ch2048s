@@ -98,6 +98,8 @@ class Field {
             );
 
             return possibles;
+        } else {
+            return possibles && atile.data.bonus == 0;
         }
 
         return false;

@@ -40,15 +40,24 @@ class Manager {
             let oldval = old.value;
             let curval = tile.value;
             
-            let bonus = old.data.bonus;
+            let pbonus = old.data.bonus;
+            let mbonus = tile.data.bonus;
             let opponent = tile.data.side != old.data.side;
             let owner = !opponent;
 
-            if (bonus == 1) {
+            if (pbonus == 1) {
                 tile.data.side = tile.data.side == 0 ? 1 : 0;
             } 
 
-            if (opponent && bonus == 0) {
+            if (mbonus == 1 && pbonus == 0) {
+                tile.data.bonus = 0;
+                tile.data.side = old.data.side;
+                tile.data.value = old.data.value;
+                tile.data.piece = old.data.piece;
+                tile.data.side = old.data.side == 0 ? 1 : 0;
+            } 
+
+            if (opponent && pbonus == 0 && mbonus == 0) {
                 if (oldval == curval) {
                     tile.value = curval * 2.0;
                 } else 
@@ -59,7 +68,7 @@ class Manager {
                 }
             } 
 
-            if (owner && bonus == 0) {
+            if (owner && pbonus == 0 && mbonus == 0) {
                 tile.data.side = tile.data.side == 0 ? 1 : 0;
 
                 if (oldval == curval) {
@@ -74,7 +83,7 @@ class Manager {
 
             if(tile.value <= 1) this.graphic.showGameover();
             
-            if(bonus == 0){
+            if(pbonus == 0 && mbonus == 0){
                 this.data.score += tile.value;
                 this.data.absorbed = true;
                 this.graphic.removeObject(old);

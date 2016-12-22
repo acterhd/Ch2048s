@@ -49,7 +49,8 @@ class Manager {
             if (tile.data.side != old.data.side) {
                 
             } else {
-                tile.value *= 0.5;
+                tile.data.side = tile.data.side == 0 ? 1 : 0;
+                if (oldval >= curval) tile.value *= 0.5;
             }
 
             if(tile.value <= 1) this.graphic.showGameover();

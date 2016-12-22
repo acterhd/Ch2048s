@@ -74,7 +74,7 @@ class Field {
 
         let same = atile.value == tile.value;
         let opponent = atile.data.side != tile.data.side;
-        let less = !opponent && (atile.data.value * 2) == tile.data.value || opponent && same;
+        let less = (atile.data.value * 2) == tile.data.value || same && opponent;//!opponent && (atile.data.value * 2) == tile.data.value || opponent && same;
 
         let possibles = less && piece /*&& oppositeKing*/;
 

@@ -38,7 +38,12 @@ class Manager {
         
         this.field.ontileabsorption.push((old, tile)=>{
             if (tile.data.side != old.data.side) {
-                tile.value *= 2;
+                if (old.value == tile.value) {
+                    tile.value *= 2;
+                } else 
+                if (old.value > tile.value){
+                    tile.value *= old.value;
+                }
             } else {
                 tile.data.side = tile.data.side == 1 ? 0 : 1;
             }

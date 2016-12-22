@@ -80,15 +80,13 @@ class Field {
         let higter = tile.value * 2 == atile.value;
         let lower = atile.value * 2 == tile.value;
 
+        //Settings with possible oppositions
         possibles = possibles && 
         (
             same && opponent || 
             higter && opponent || 
             lower && both
-        ) && piece /*&& oppositeKing*/;
-
-        //
-        //possibles = possibles && opponent; //Hardcore mode
+        ) && piece;
 
         return possibles;
     }

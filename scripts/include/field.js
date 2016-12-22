@@ -87,7 +87,7 @@ class Field {
         (
             same && opponent || 
             higterThanOp && opponent || 
-            lowerThanOp && owner
+            lowerThanOp && both
         ) && piece;
 
         return possibles;

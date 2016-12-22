@@ -71,15 +71,21 @@ class Field {
         let piece = tile.possible(lto);
 
         if (!atile) return piece;
+        let possibles = piece;
+
+        let opponent = atile.data.side != tile.data.side;
+        let both = true;
 
         let same = atile.value == tile.value;
-        let opponent = atile.data.side != tile.data.side;
-        let less = 
-        ((atile.data.value * 2) == (tile.data.value * 1) || 
-         (atile.data.value * 1) == (tile.data.value * 2) || 
-         same);
+        let higter = tile.value * 2 == atile.value;
+        let lower = atile.value * 2 == tile.value;
 
-        let possibles = less && piece /*&& oppositeKing*/;
+        possibles = possibles && 
+        (
+            same && opponent || 
+            higter && opponent || 
+            lower && both
+        ) && piece /*&& oppositeKing*/;
 
         //
         //possibles = possibles && opponent; //Hardcore mode

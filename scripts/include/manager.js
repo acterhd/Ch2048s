@@ -40,10 +40,15 @@ class Manager {
             let oldval = old.value;
             let curval = tile.value;
             
+            let bonus = old.data.bonus;
             let opponent = tile.data.side != old.data.side;
             let owner = !opponent;
 
-            if (opponent) {
+            if (bonus == 1) {
+                tile.data.side = tile.data.side == 0 ? 1 : 0;
+            } 
+
+            if (opponent && bonus == 0) {
                 if (oldval == curval) {
                     tile.value = curval * 2.0;
                 } else 
@@ -54,7 +59,7 @@ class Manager {
                 }
             } 
 
-            if (owner) {
+            if (owner && bonus == 0) {
                 tile.data.side = tile.data.side == 0 ? 1 : 0;
 
                 if (oldval == curval) {
@@ -69,10 +74,12 @@ class Manager {
 
             if(tile.value <= 1) this.graphic.showGameover();
             
-            this.data.score += tile.value;
-            this.data.absorbed = true;
-            this.graphic.removeObject(old);
-            this.graphic.updateScore();
+            if(bonus == 0){
+                this.data.score += tile.value;
+                this.data.absorbed = true;
+                this.graphic.removeObject(old);
+                this.graphic.updateScore();
+            }
         });
         this.field.ontileremove.push((tile)=>{ //when tile removed
             this.graphic.removeObject(tile);
@@ -124,7 +131,8 @@ class Manager {
                 piece: tile.data.piece, 
                 side: tile.data.side, 
                 value: tile.data.value,
-                prev: tile.data.prev
+                prev: tile.data.prev, 
+                bonus: tile.data.bonus
             });
         }
         this.states.push(state);
@@ -149,6 +157,7 @@ class Manager {
             tile.data.side = tdat.side;
             tile.data.loc = tdat.loc;
             tile.data.prev = tdat.prev;
+            tile.data.bonus = tdat.bonus;
             tile.attach(this.field, tdat.loc);
         }
 

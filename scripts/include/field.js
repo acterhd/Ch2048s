@@ -12,7 +12,8 @@ class Field {
         this.defaultTilemapInfo = {
             tileID: -1,
             tile: null,
-            loc: [-1, -1]
+            loc: [-1, -1], 
+            bonus: 0 //Default piece, 1 are inverter, 2 are multi-side
         };
         this.init();
         
@@ -75,24 +76,31 @@ class Field {
         if (!atile) return piece;
         let possibles = piece;
 
-        let opponent = atile.data.side != tile.data.side;
-        let owner = !opponent; //Also possible owner
-        let both = true;
-        let nobody = false;
+        if(tile.data.bonus == 0){
+            let opponent = atile.data.side != tile.data.side;
+            let owner = !opponent; //Also possible owner
+            let both = true;
+            let nobody = false;
 
-        let same = atile.value == tile.value;
-        let higterThanOp = tile.value * 2 == atile.value;
-        let lowerThanOp = atile.value * 2 == tile.value;
+            let same = atile.value == tile.value;
+            let higterThanOp = tile.value * 2 == atile.value;
+            let lowerThanOp = atile.value * 2 == tile.value;
 
-        //Settings with possible oppositions
-        possibles = possibles && 
-        (
-            same && opponent || 
-            higterThanOp && nobody || 
-            lowerThanOp && nobody
-        ) && piece;
+            let withconverter = atile.data.bonus != 0;
 
-        return possibles;
+            //Settings with possible oppositions
+            possibles = possibles && 
+            (
+                same && opponent || 
+                higterThanOp && nobody || 
+                lowerThanOp && nobody || 
+                withconverter
+            );
+
+            return possibles;
+        }
+
+        return false;
     }
 
     notSame(){
@@ -144,19 +152,27 @@ class Field {
         
 
         if(notOccupied.length > 0){
-            tile.data.piece = this.genPiece();
-            tile.data.value = Math.random() < 0.2 ? 4 : 2;
-
-            let bcheck = this.checkAny(2, 1, 1) && this.checkAny(4, 1, 1);
-            let wcheck = this.checkAny(2, 1, 0) && this.checkAny(4, 1, 0);
-            if (bcheck && wcheck || !bcheck && !wcheck) { //Or any, or nobody
-                tile.data.side = Math.random() < 0.5 ? 1 : 0;
-            } else 
-            if (!bcheck){
-                tile.data.side = 1;
-            } else 
-            if (!wcheck){
+            if(Math.random() < 0.1){
                 tile.data.side = 0;
+                tile.data.bonus = 1; //Inverter
+                tile.data.value = 2;
+                tile.data.piece = 5;
+            } else {
+                tile.data.piece = this.genPiece();
+                tile.data.value = Math.random() < 0.2 ? 4 : 2;
+                tile.data.bonus = 0;
+
+                let bcheck = this.checkAny(2, 1, 1) && this.checkAny(4, 1, 1);
+                let wcheck = this.checkAny(2, 1, 0) && this.checkAny(4, 1, 0);
+                if (bcheck && wcheck || !bcheck && !wcheck) { //Or any, or nobody
+                    tile.data.side = Math.random() < 0.5 ? 1 : 0;
+                } else 
+                if (!bcheck){
+                    tile.data.side = 1;
+                } else 
+                if (!wcheck){
+                    tile.data.side = 0;
+                }
             }
 
             tile.attach(this, notOccupied[Math.floor(Math.random() * notOccupied.length)].loc); //prefer generate single

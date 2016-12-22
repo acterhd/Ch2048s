@@ -18,6 +18,10 @@ let iconsetBlack = [
     "icons/BlackKing.png"
 ];
 
+let bonuses = [
+    "icons/Inverse.png"
+];
+
 Snap.plugin(function (Snap, Element, Paper, glob) {
     var elproto = Element.prototype;
     elproto.toFront = function () {
@@ -55,6 +59,14 @@ class GraphicsEngine {
                 //width: 128, 
                 //height: 128, 
                 styles: [
+                    {
+                        condition: function(){
+                            let tile = this; 
+                            return tile.data.bonus == 1;
+                        }, 
+                        fill: "rgb(192, 192, 192)",
+                        font: "rgb(0, 0, 0)"
+                    }, 
                     {
                         condition: function(){
                             let tile = this; 
@@ -521,25 +533,35 @@ class GraphicsEngine {
             }
         }
 
-        obj.text.attr({"text": `${tile.value}`});
+        if (tile.data.bonus == 0){
+            obj.text.attr({"text": `${tile.value}`});
+            obj.icon.attr({"xlink:href": obj.tile.data.side == 0 ? iconset[obj.tile.data.piece] : iconsetBlack[obj.tile.data.piece]});
+            obj.text.attr({
+                "font-size": this.params.tile.width * 0.15, //"16px",
+                "text-anchor": "middle", 
+                "font-family": "Comic Sans MS", 
+                "color": "black"
+            });
+        } else {
+            obj.text.attr({"text": ``});
+            obj.icon.attr({"xlink:href": bonuses[tile.data.bonus-1]});
+            obj.text.attr({
+                "font-size": this.params.tile.width * 0.15, //"16px",
+                "text-anchor": "middle", 
+                "font-family": "Comic Sans MS", 
+                "color": "black"
+            });
+        }
+        
+        if (!style) return this;
+        obj.rectangle.attr({
+            fill: style.fill
+        });
         if (style.font) {
             obj.text.attr("fill", style.font);
         } else {
             obj.text.attr("fill", "black");
         }
-        obj.icon.attr({"xlink:href": obj.tile.data.side == 0 ? iconset[obj.tile.data.piece] : iconsetBlack[obj.tile.data.piece]});
-
-        obj.text.attr({
-            "font-size": this.params.tile.width * 0.15, //"16px",
-            "text-anchor": "middle", 
-            "font-family": "Comic Sans MS", 
-            "color": "black"
-        });
-
-        if (!style) return this;
-        obj.rectangle.attr({
-            fill: style.fill
-        });
 
         return this;
     }

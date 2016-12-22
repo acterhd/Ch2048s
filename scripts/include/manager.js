@@ -42,7 +42,7 @@ class Manager {
                     tile.value *= 2;
                 } else 
                 if (old.value > tile.value){
-                    tile.value *= old.value;
+                    tile.value = old.value;
                 }
             } else {
                 tile.data.side = tile.data.side == 1 ? 0 : 1;

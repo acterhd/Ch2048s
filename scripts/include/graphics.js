@@ -58,6 +58,14 @@ class GraphicsEngine {
                     {
                         condition: function(){
                             let tile = this; 
+                            return tile.value >= 0 && tile.value < 2;
+                        }, 
+                        fill: "rgb(32, 32, 32)",
+                        font: "rgb(255, 255, 255)"
+                    }, 
+                    {
+                        condition: function(){
+                            let tile = this; 
                             return tile.value >= 2 && tile.value < 4;
                         }, 
                         fill: "rgb(255, 192, 128)"

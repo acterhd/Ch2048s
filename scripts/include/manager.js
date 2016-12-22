@@ -49,8 +49,12 @@ class Manager {
                 }
             } else {
                 tile.data.side = tile.data.side == 1 ? 0 : 1;
+                if (oldval >= curval){
+                    tile.value = curval * 0.5; //Downgrade for teamkill equal and higter
+                }
+                
             }
-
+            if(tile.value <= 1) this.graphic.showGameover();
             
             
             this.data.score += oldval;

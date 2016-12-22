@@ -40,17 +40,28 @@ class Manager {
             let oldval = old.value;
             let curval = tile.value;
             
-            if (oldval == curval) {
-                tile.value = curval * 2.0;
-            } else {
-                tile.value = oldval;
-            }
+            
 
             if (tile.data.side != old.data.side) {
-                
+                if (oldval == curval) {
+                    tile.value = curval * 2.0;
+                } else 
+                if (oldval < curval) {
+                    tile.value = oldval;
+                } else {
+                    tile.value = oldval;
+                }
             } else {
                 tile.data.side = tile.data.side == 0 ? 1 : 0;
-                if (oldval >= curval) tile.value *= 0.5;
+
+                if (oldval == curval) {
+                    tile.value = curval * 0.5;
+                } else 
+                if (oldval < curval) {
+                    tile.value = curval;
+                } else {
+                    tile.value = oldval;
+                }
             }
 
             if(tile.value <= 1) this.graphic.showGameover();
@@ -74,7 +85,11 @@ class Manager {
             }
             this.data.absorbed = false;
 
-            if(!this.field.anyPossible()) this.graphic.showGameover();
+            while (!this.field.anyPossible()) {
+                if(!this.field.generateTile()) break;
+            }
+            if (!this.field.anyPossible()) this.graphic.showGameover();
+
             if( this.checkCondition() && !this.data.victory) {
                 this.resolveVictory();
             }

@@ -42,7 +42,7 @@ class Manager {
             
             if (tile.data.side != old.data.side) {
                 if (oldval == curval) {
-                    tile.value = curval + oldval;
+                    tile.value = curval * 2.0;
                 } else {
                     tile.value = oldval;
                 }

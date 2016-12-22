@@ -37,19 +37,23 @@ class Manager {
         };
         
         this.field.ontileabsorption.push((old, tile)=>{
+            let oldval = old.value;
+            let curval = tile.value;
+            
             if (tile.data.side != old.data.side) {
-                if (old.value == tile.value) {
-                    tile.value *= 2;
-                } else
-                if (old.value != tile.value){
-                    tile.value = old.value;
+                if (oldval == curval) {
+                    tile.value = curval + oldval;
+                }
+                if (oldval != curval){
+                    tile.value = oldval;
                 }
             } else {
                 tile.data.side = tile.data.side == 1 ? 0 : 1;
             }
-            
 
-            this.data.score += tile.value;
+            
+            
+            this.data.score += oldval;
             this.data.absorbed = true;
             this.graphic.removeObject(old);
             this.graphic.updateScore();

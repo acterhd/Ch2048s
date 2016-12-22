@@ -164,15 +164,7 @@ class Field {
 
                 let bcheck = this.checkAny(2, 1, 1) && this.checkAny(4, 1, 1);
                 let wcheck = this.checkAny(2, 1, 0) && this.checkAny(4, 1, 0);
-                if (bcheck && wcheck || !bcheck && !wcheck) { //Or any, or nobody
-                    tile.data.side = Math.random() < 0.5 ? 1 : 0;
-                } else 
-                if (!bcheck){
-                    tile.data.side = 1;
-                } else 
-                if (!wcheck){
-                    tile.data.side = 0;
-                }
+                tile.data.side = Math.random() < 0.5 ? 1 : 0;
             }
 
             tile.attach(this, notOccupied[Math.floor(Math.random() * notOccupied.length)].loc); //prefer generate single

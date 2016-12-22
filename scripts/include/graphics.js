@@ -543,7 +543,7 @@ class GraphicsEngine {
                 "color": "black"
             });
         } else {
-            obj.text.attr({"text": ``});
+            obj.text.attr({"text": `Inversion`});
             obj.icon.attr({"xlink:href": bonuses[tile.data.bonus-1]});
             obj.text.attr({
                 "font-size": this.params.tile.width * 0.15, //"16px",

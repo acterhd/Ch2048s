@@ -123,7 +123,7 @@ class Field {
         if(rnd >= 0.6 && rnd < 0.8){
             return 3;
         } else 
-        if(rnd >= 0.8 && rnd < 0.9){
+        if(rnd >= 0.8 && rnd < 0.85){
             return 4;
         }
         return 5;

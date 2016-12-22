@@ -98,7 +98,7 @@ class Manager {
             let c = Math.max(Math.ceil(Math.sqrt((this.field.data.width / 4) * (this.field.data.height / 4)) * 2), 1);
             if (!this.data.absorbed) {
                 for(let i=0;i<c;i++){
-                    if(Math.random() <= 0.5) this.field.generateTile();
+                    if(Math.random() <= 0.25) this.field.generateTile();
                 }
             } else {
                 while(!(this.field.checkAny(2, 2) || this.field.checkAny(4, 2))) {

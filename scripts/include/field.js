@@ -79,15 +79,15 @@ class Field {
         let nobody = false;
 
         let same = atile.value == tile.value;
-        let higterThanOp = atile.value * 2 == tile.value;
-        let lowerThanOp = tile.value * 2 == atile.value;
+        let higterThanOp = tile.value * 2 == atile.value;
+        let lowerThanOp = atile.value * 2 == tile.value;
 
         //Settings with possible oppositions
         possibles = possibles && 
         (
             same && opponent || 
-            higterThanOp && both || 
-            lowerThanOp && both
+            higterThanOp && opponent || 
+            lowerThanOp && owner
         ) && piece;
 
         return possibles;

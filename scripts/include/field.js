@@ -84,7 +84,7 @@ class Field {
         //Settings with possible oppositions
         possibles = possibles && 
         (
-            same && both || 
+            same && opponent || 
             higter && opponent || 
             lower && both
         ) && piece;

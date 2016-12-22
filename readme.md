@@ -6,7 +6,6 @@ This is game, inspired and cloned from [2048](https://github.com/gabrielecirulli
 
 ## Current gameplay 
 
-You should move pieces by mouse or touch. Capturing same color invert piece. Capturing different color increase value up to 2x.
 
 ## Playable version
 

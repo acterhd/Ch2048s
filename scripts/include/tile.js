@@ -227,8 +227,29 @@ class Tile {
         ];
         let mx = Math.max(Math.abs(diff[0]), Math.abs(diff[1]));
         let mn = Math.min(Math.abs(diff[0]), Math.abs(diff[1]));
-        let dir = [Math.sign(diff[0]), Math.sign(diff[1])];
+        let dir = [diff[0] / mx, diff[1] / mx];//[Math.sign(diff[0]), Math.sign(diff[1])];
         let tile = this.field.get(loc);
+
+        let trace = ()=>{
+            for(let o=1;o<Math.max(diff[0], diff[1])-1;o++){
+                let off = [
+                    dir[0] * o, 
+                    dir[1] * o
+                ];
+                let cloc = [
+                    mloc[0] + off[0], 
+                    mloc[1] + off[1]
+                ];
+                if (
+                    this.field.get(cloc).tile && 
+                    loc[0] != cloc[0] && 
+                    loc[1] != cloc[1]
+                ) {
+                    return false;
+                } 
+            }
+            return true;
+        }
 
         if (this.data.piece == 0) { //PAWN
             let ydir = this.data.side == 0 ? -1 : 1;
@@ -243,29 +264,14 @@ class Tile {
             if (
                 Math.abs(diff[0]) == 1 && Math.abs(diff[1]) == 2 ||
                 Math.abs(diff[0]) == 2 && Math.abs(diff[1]) == 1
-            ) return true;
+            ) {
+                return true;
+            }
         } else 
 
         if (this.data.piece == 2) { //Bishop
             if (Math.abs(dir[0]) == 1 && Math.abs(dir[1]) == 1) {
-                for(let o=1;o<Math.max(diff[0], diff[1])-1;o++){
-                    let off = [
-                        dir[0] * o, 
-                        dir[1] * o
-                    ];
-                    let cloc = [
-                        mloc[0] + off[0], 
-                        mloc[1] + off[1]
-                    ];
-                    if (
-                        this.field.get(cloc).tile && 
-                        loc[0] != cloc[0] && 
-                        loc[1] != cloc[1]
-                    ) {
-                        return false;
-                    } 
-                }
-                return true;
+                return trace();
             }
         } else 
 
@@ -274,24 +280,7 @@ class Tile {
                 Math.abs(dir[0]) == 0 && Math.abs(dir[1]) == 1 || 
                 Math.abs(dir[0]) == 1 && Math.abs(dir[1]) == 0
             ) {
-                for(let o=1;o<Math.max(diff[0], diff[1])-1;o++){
-                    let off = [
-                        dir[0] * o, 
-                        dir[1] * o
-                    ];
-                    let cloc = [
-                        mloc[0] + off[0], 
-                        mloc[1] + off[1]
-                    ];
-                    if (
-                        this.field.get(cloc).tile && 
-                        loc[0] != cloc[0] && 
-                        loc[1] != cloc[1]
-                    ) {
-                        return false;
-                    }  
-                }
-                return true;
+                return trace();
             }
         } else 
 
@@ -301,29 +290,14 @@ class Tile {
                 Math.abs(dir[0]) == 0 && Math.abs(dir[1]) == 1 || 
                 Math.abs(dir[0]) == 1 && Math.abs(dir[1]) == 0
             ) {
-                for(let o=1;o<Math.max(diff[0], diff[1])-1;o++){
-                    let off = [
-                        dir[0] * o, 
-                        dir[1] * o
-                    ];
-                    let cloc = [
-                        mloc[0] + off[0], 
-                        mloc[1] + off[1]
-                    ];
-                    if (
-                        this.field.get(cloc).tile && 
-                        loc[0] != cloc[0] && 
-                        loc[1] != cloc[1]
-                    ) {
-                        return false;
-                    } 
-                }
-                return true;
+                return trace();
             }
         } else 
 
         if (this.data.piece == 5) { //King
-            if (Math.abs(diff[0]) <= 1) return true;
+            if (Math.abs(diff[0]) <= 1) {
+                return true;
+            }
         }
 
         return false;

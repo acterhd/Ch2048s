@@ -40,24 +40,10 @@ class Manager {
             let oldval = old.value;
             let curval = tile.value;
             
-            let pbonus = old.data.bonus;
-            let mbonus = tile.data.bonus;
             let opponent = tile.data.side != old.data.side;
             let owner = !opponent;
 
-            if (pbonus == 1) {
-                tile.data.side = tile.data.side == 0 ? 1 : 0;
-            } 
-
-            if (mbonus == 1 && pbonus == 0) {
-                tile.data.bonus = 0;
-                tile.data.side = old.data.side;
-                tile.data.value = old.data.value;
-                tile.data.piece = old.data.piece;
-                tile.data.side = old.data.side == 0 ? 1 : 0;
-            } 
-
-            if (opponent && pbonus == 0 && mbonus == 0) {
+            if (opponent) {
                 if (oldval == curval) {
                     tile.value = curval * 2.0;
                 } else 
@@ -68,7 +54,7 @@ class Manager {
                 }
             } 
 
-            if (owner && pbonus == 0 && mbonus == 0) {
+            if (owner) {
                 tile.data.side = tile.data.side == 0 ? 1 : 0;
 
                 if (oldval == curval) {
@@ -82,13 +68,11 @@ class Manager {
             }
 
             if(tile.value <= 1) this.graphic.showGameover();
-            
-            if(pbonus == 0 && mbonus == 0){
-                this.data.score += tile.value;
-                this.data.absorbed = true;
-                this.graphic.removeObject(old);
-                this.graphic.updateScore();
-            }
+        
+            this.data.score += tile.value;
+            this.data.absorbed = true;
+            this.graphic.removeObject(old);
+            this.graphic.updateScore();
         });
         this.field.ontileremove.push((tile)=>{ //when tile removed
             this.graphic.removeObject(tile);
@@ -100,20 +84,12 @@ class Manager {
             
             if (!this.data.absorbed) {
                 for(let i=0;i<c;i++){
-                    if(Math.random() <= 0.25) this.field.generateTile();
+                    if(Math.random() <= 0.5) this.field.generateTile();
                 }
             }
             this.data.absorbed = false;
 
-            while(!(
-                this.field.checkAny(2, 1, 0) &&   
-                this.field.checkAny(2, 1, 1) || 
-                
-                this.field.checkAny(4, 1, 0) && 
-                this.field.checkAny(4, 1, 1)
-            ) || 
-                !this.field.anyPossible()
-            ) {
+            while(!this.field.anyPossible()) {
                 if (!this.field.generateTile()) break;
             }
             if (!this.field.anyPossible()) this.graphic.showGameover();

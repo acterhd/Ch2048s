@@ -91,10 +91,9 @@ class Field {
             //Settings with possible oppositions
             possibles = possibles && 
             (
-                same && opponent || 
+                same && both || 
                 higterThanOp && nobody || 
-                lowerThanOp && nobody || 
-                withconverter
+                lowerThanOp && nobody
             );
 
             return possibles;
@@ -151,36 +150,25 @@ class Field {
             }
         }
 
-        
-
         if(notOccupied.length > 0){
-            if(Math.random() < 0.1){
+            tile.data.piece = this.genPiece();
+            tile.data.value = Math.random() < 0.2 ? 4 : 2;
+            tile.data.bonus = 0;
+
+            let bcheck = this.checkAny(2, 1, 1) || this.checkAny(4, 1, 1);
+            let wcheck = this.checkAny(2, 1, 0) || this.checkAny(4, 1, 0);
+
+            if (bcheck && wcheck || !bcheck && !wcheck) {
+                tile.data.side = Math.random() < 0.5 ? 1 : 0;
+            } else 
+            if (!bcheck){
+                tile.data.side = 1;
+            } else 
+            if (!wcheck){
                 tile.data.side = 0;
-                tile.data.bonus = 1; //Inverter
-                tile.data.value = 2;
-                tile.data.piece = 5;
-            } else {
-                tile.data.piece = this.genPiece();
-                tile.data.value = Math.random() < 0.2 ? 4 : 2;
-                tile.data.bonus = 0;
-
-                let bcheck = this.checkAny(2, 1, 1) || this.checkAny(4, 1, 1);
-                let wcheck = this.checkAny(2, 1, 0) || this.checkAny(4, 1, 0);
-
-                if (bcheck && wcheck || !bcheck && !wcheck) {
-                    tile.data.side = Math.random() < 0.5 ? 1 : 0;
-                } else 
-                if (!bcheck){
-                    tile.data.side = 1;
-                } else 
-                if (!wcheck){
-                    tile.data.side = 0;
-                }
             }
 
             tile.attach(this, notOccupied[Math.floor(Math.random() * notOccupied.length)].loc); //prefer generate single
-            
-            
         } else {
             return false; //Not possible to generate new tiles
         }

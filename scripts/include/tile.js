@@ -50,6 +50,18 @@ let qdirs = rdirs.concat(bdirs); //may not need
 
 let tcounter = 0;
 
+function gcd(a,b) {
+    if (a < 0) a = -a;
+    if (b < 0) b = -b;
+    if (b > a) {var temp = a; a = b; b = temp;}
+    while (true) {
+        if (b == 0) return a;
+        a %= b;
+        if (a == 0) return b;
+        b %= a;
+    }
+}
+
 class Tile {
     constructor(){
         this.field = null;
@@ -221,30 +233,37 @@ class Tile {
 
     possible(loc){
         let mloc = this.data.loc;
+        if (mloc[0] == loc[0] && mloc[1] == loc[1]) return false;
+
         let diff = [
             loc[0] - mloc[0],
             loc[1] - mloc[1],
         ];
         let mx = Math.max(Math.abs(diff[0]), Math.abs(diff[1]));
         let mn = Math.min(Math.abs(diff[0]), Math.abs(diff[1]));
-        let dir = [diff[0] / mx, diff[1] / mx];//[Math.sign(diff[0]), Math.sign(diff[1])];
+        let asp = Math.max(Math.abs(diff[0] / diff[1]), Math.abs(diff[1] / diff[0]));
+
+        let gcdf = (a, b) => {
+            return (b == 0) ? a : gcdf(b, a%b);
+        }
+
+        let dv = gcd(diff[0], diff[1]);
+        let dir = [diff[0] / dv, diff[1] / dv];
         let tile = this.field.get(loc);
 
         let trace = ()=>{
-            for(let o=1;o<Math.max(diff[0], diff[1])-1;o++){
+            for(let o=1;o<mx;o++){
                 let off = [
-                    dir[0] * o, 
-                    dir[1] * o
+                    Math.floor(dir[0] * o), 
+                    Math.floor(dir[1] * o)
                 ];
+
                 let cloc = [
                     mloc[0] + off[0], 
                     mloc[1] + off[1]
                 ];
-                if (
-                    this.field.get(cloc).tile && 
-                    loc[0] != cloc[0] && 
-                    loc[1] != cloc[1]
-                ) {
+
+                if (this.field.get(cloc).tile) {
                     return false;
                 } 
             }

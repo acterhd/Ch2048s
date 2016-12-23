@@ -107,7 +107,7 @@ class Manager {
         return this.field.tiles;
     }
 
-
+    
     saveState(){
         let state = {
             tiles: [],

@@ -205,22 +205,21 @@ class Tile {
         return false;
     }
 
-    least(dir){
+    least(diff){
         let mloc = this.data.loc;
         
-        let diff = dir;
         let mx = Math.max(Math.abs(diff[0]), Math.abs(diff[1]));
         let mn = Math.min(Math.abs(diff[0]), Math.abs(diff[1]));
         let asp = Math.max(Math.abs(diff[0] / diff[1]), Math.abs(diff[1] / diff[0]));
 
         let dv = gcd(diff[0], diff[1]);
-        dir = [diff[0] / dv, diff[1] / dv];
+        let dir = [diff[0] / dv, diff[1] / dv];
         let loc = [mloc[0] + dir[0], mloc[1] + dir[1]];
         let tile = this.field.get(loc);
         let least = loc;
 
         let trace = ()=>{
-            for(let o=1;o<Math.max(this.field.width, this.field.height);o++){
+            for(let o=1;o<mx;o++){
                 let off = [
                     Math.floor(dir[0] * o), 
                     Math.floor(dir[1] * o)

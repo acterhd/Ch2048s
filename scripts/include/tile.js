@@ -295,7 +295,7 @@ class Tile {
         } else 
 
         if (this.data.piece == 5) { //King
-            if (Math.abs(diff[0]) <= 1) {
+            if (Math.abs(diff[0]) <= 1 && Math.abs(diff[1]) <= 1) {
                 return true;
             }
         }

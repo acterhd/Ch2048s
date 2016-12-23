@@ -218,56 +218,117 @@ class Tile {
 
         return false;
     }
-    
 
-    getKnightPossibleTiles(){
-        let availables = [];
-        for(let i=0;i<kmovemap.length;i++){
-            let loc = kmovemap[i];
-            let tif = this.get(loc);
-            if (tif) availables.push(tif);
+    possible(loc){
+        let mloc = this.data.loc;
+        let diff = [
+            loc[0] - mloc[0],
+            loc[1] - mloc[1],
+        ];
+        let mx = Math.max(Math.abs(diff[0]), Math.abs(diff[1]));
+        let mn = Math.min(Math.abs(diff[0]), Math.abs(diff[1]));
+        let dir = [Math.sign(diff[0]), Math.sign(diff[1])];
+        let tile = this.field.get(loc);
+
+        if (this.data.piece == 0) { //PAWN
+            let ydir = this.data.side == 0 ? -1 : 1;
+            if (tile.tile) {
+                return Math.abs(diff[0]) == 1 && diff[1] == ydir;
+            } else {
+                return Math.abs(diff[0]) == 0 && diff[1] == ydir;
+            }
+        } else 
+
+        if (this.data.piece == 1) { //Knight
+            if (
+                Math.abs(diff[0]) == 1 && Math.abs(diff[1]) == 2 ||
+                Math.abs(diff[0]) == 2 && Math.abs(diff[1]) == 1
+            ) return true;
+        } else 
+
+        if (this.data.piece == 2) { //Bishop
+            if (Math.abs(dir[0]) == 1 && Math.abs(dir[1]) == 1) {
+                for(let o=1;o<Math.max(diff[0], diff[1])-1;o++){
+                    let off = [
+                        dir[0] * o, 
+                        dir[1] * o
+                    ];
+                    let cloc = [
+                        mloc[0] + off[0], 
+                        mloc[1] + off[1]
+                    ];
+                    if (
+                        this.field.get(cloc).tile && 
+                        loc[0] != cloc[0] && 
+                        loc[1] != cloc[1]
+                    ) {
+                        return false;
+                    } 
+                }
+                return true;
+            }
+        } else 
+
+        if (this.data.piece == 3) { //Rook
+            if (
+                Math.abs(dir[0]) == 0 && Math.abs(dir[1]) == 1 || 
+                Math.abs(dir[0]) == 1 && Math.abs(dir[1]) == 0
+            ) {
+                for(let o=1;o<Math.max(diff[0], diff[1])-1;o++){
+                    let off = [
+                        dir[0] * o, 
+                        dir[1] * o
+                    ];
+                    let cloc = [
+                        mloc[0] + off[0], 
+                        mloc[1] + off[1]
+                    ];
+                    if (
+                        this.field.get(cloc).tile && 
+                        loc[0] != cloc[0] && 
+                        loc[1] != cloc[1]
+                    ) {
+                        return false;
+                    }  
+                }
+                return true;
+            }
+        } else 
+
+        if (this.data.piece == 4) { //Queen
+            if (
+                Math.abs(dir[0]) == 1 && Math.abs(dir[1]) == 1 || 
+                Math.abs(dir[0]) == 0 && Math.abs(dir[1]) == 1 || 
+                Math.abs(dir[0]) == 1 && Math.abs(dir[1]) == 0
+            ) {
+                for(let o=1;o<Math.max(diff[0], diff[1])-1;o++){
+                    let off = [
+                        dir[0] * o, 
+                        dir[1] * o
+                    ];
+                    let cloc = [
+                        mloc[0] + off[0], 
+                        mloc[1] + off[1]
+                    ];
+                    if (
+                        this.field.get(cloc).tile && 
+                        loc[0] != cloc[0] && 
+                        loc[1] != cloc[1]
+                    ) {
+                        return false;
+                    } 
+                }
+                return true;
+            }
+        } else 
+
+        if (this.data.piece == 5) { //King
+            if (Math.abs(diff[0]) <= 1) return true;
         }
-        return availables;
-    }
-    
-    getNeightborTiles(dir){
-        let availables = [];
-        let maxt = Math.max(this.field.data.width, this.field.data.height);
-        let tif = this.get([dir[0], dir[1]]);
-        if (tif) availables.push(tif);
-        return availables;
+
+        return false;
     }
 
-    getDirectionTiles(dir){
-        let availables = [];
-        let maxt = Math.max(this.field.data.width, this.field.data.height);
-        for(let i=1;i<maxt;i++){
-            let tif = this.get([dir[0] * i, dir[1] * i]);
-            if (tif) availables.push(tif);
-            if (tif.tile || !tif) break;
-        }
-        return availables;
-    }
-    
-    getPawnAttackTiles(){
-        let availables = [];
-        let dirs = this.data.side == 0 ? padirs : padirsNeg;
-        for(let i=0;i<dirs.length;i++){
-            let tif = this.get(dirs[i]);
-            if (tif && tif.tile) availables.push(tif);
-        }
-        return availables;
-    }
-    
-    getPawnMoveTiles(){
-        let availables = [];
-        let dirs = this.data.side == 0 ? pmdirs : pmdirsNeg;
-        for(let i=0;i<dirs.length;i++){
-            let tif = this.get(dirs[i]);
-            if (tif && !tif.tile) availables.push(tif);
-        }
-        return availables;
-    }
 }
 
 export {Tile};

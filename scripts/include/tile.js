@@ -152,85 +152,6 @@ class Tile {
         return this;
     }
 
-    possible(loc){
-        if (this.data.piece == 0) { //PAWN
-            let list = this.getPawnAttackTiles();
-            for (let m of list) {
-                if(m.loc[0] == loc[0] && m.loc[1] == loc[1]) return true;
-            }
-
-            list = this.getPawnMoveTiles();
-            for (let m of list) {
-                if(m.loc[0] == loc[0] && m.loc[1] == loc[1]) return true;
-            }
-        } else 
-
-        if (this.data.piece == 1) { //Knight
-            let list = this.getKnightPossibleTiles();
-            for (let m of list) {
-                if(m.loc[0] == loc[0] && m.loc[1] == loc[1]) return true;
-            }
-        } else 
-
-        if (this.data.piece == 2) { //Bishop
-            for (let d of bdirs){
-                if (
-                    Math.sign(loc[0] - this.loc[0]) != d[0] || 
-                    Math.sign(loc[1] - this.loc[1]) != d[1]
-                ) continue;
-
-                let list = this.getDirectionTiles(d);
-                for (let m of list.reverse()) {
-                    if(m.loc[0] == loc[0] && m.loc[1] == loc[1]) return true;
-                }
-            }
-        } else 
-
-        if (this.data.piece == 3) { //Rook
-            for (let d of rdirs){
-                if (
-                    Math.sign(loc[0] - this.loc[0]) != d[0] || 
-                    Math.sign(loc[1] - this.loc[1]) != d[1]
-                ) continue; //Not possible direction
-
-                let list = this.getDirectionTiles(d);
-                for (let m of list.reverse()) {
-                    if(m.loc[0] == loc[0] && m.loc[1] == loc[1]) return true;
-                }
-            }
-        } else 
-
-        if (this.data.piece == 4) { //Queen
-            for (let d of qdirs){
-                if (
-                    Math.sign(loc[0] - this.loc[0]) != d[0] || 
-                    Math.sign(loc[1] - this.loc[1]) != d[1]
-                ) continue; //Not possible direction
-
-                let list = this.getDirectionTiles(d);
-                for (let m of list.reverse()) {
-                    if(m.loc[0] == loc[0] && m.loc[1] == loc[1]) return true;
-                }
-            }
-        } else 
-
-        if (this.data.piece == 5) { //King
-            for (let d of qdirs){
-                if (
-                    Math.sign(loc[0] - this.loc[0]) != d[0] || 
-                    Math.sign(loc[1] - this.loc[1]) != d[1]
-                ) continue; //Not possible direction
-
-                let list = this.getNeightborTiles(d);
-                for (let m of list) {
-                    if(m.loc[0] == loc[0] && m.loc[1] == loc[1]) return true;
-                }
-            }
-        }
-
-        return false;
-    }
-
     response(dir){
         let mloc = this.data.loc;
         let dv = gcd(dir[0], dir[1]);
@@ -282,6 +203,89 @@ class Tile {
         }
 
         return false;
+    }
+
+    least(dir){
+        let mloc = this.data.loc;
+        
+        let diff = dir;
+        let mx = Math.max(Math.abs(diff[0]), Math.abs(diff[1]));
+        let mn = Math.min(Math.abs(diff[0]), Math.abs(diff[1]));
+        let asp = Math.max(Math.abs(diff[0] / diff[1]), Math.abs(diff[1] / diff[0]));
+
+        let dv = gcd(diff[0], diff[1]);
+        dir = [diff[0] / dv, diff[1] / dv];
+        let loc = [mloc[0] + dir[0], mloc[1] + dir[1]];
+        let tile = this.field.get(loc);
+        let least = loc;
+
+        let trace = ()=>{
+            for(let o=1;o<Math.max(this.field.width, this.field.height);o++){
+                let off = [
+                    Math.floor(dir[0] * o), 
+                    Math.floor(dir[1] * o)
+                ];
+                let cloc = [
+                    mloc[0] + off[0], 
+                    mloc[1] + off[1]
+                ];
+                if(!(cloc[0] >= 0 && cloc[1] >= 0 && cloc[0] < this.field.data.width && cloc[1] < this.field.data.height)) return least;
+                if (this.field.get(cloc).tile) {return cloc;}
+                least = cloc;
+            }
+            return least;
+        }
+
+        if (this.data.piece == 0) { //PAWN
+            let ydir = this.data.side == 0 ? -1 : 1;
+            if (tile.tile) {
+                return Math.abs(diff[0]) == 1 && diff[1] == ydir ? loc : mloc;
+            } else {
+                return Math.abs(diff[0]) == 0 && diff[1] == ydir ? loc : mloc;
+            }
+        } else 
+
+        if (this.data.piece == 1) { //Knight
+            if (
+                Math.abs(diff[0]) == 1 && Math.abs(diff[1]) == 2 ||
+                Math.abs(diff[0]) == 2 && Math.abs(diff[1]) == 1
+            ) {
+                return loc;
+            }
+        } else 
+
+        if (this.data.piece == 2) { //Bishop
+            if (Math.abs(dir[0]) == 1 && Math.abs(dir[1]) == 1) {
+                return trace();
+            }
+        } else 
+
+        if (this.data.piece == 3) { //Rook
+            if (
+                Math.abs(dir[0]) == 0 && Math.abs(dir[1]) == 1 || 
+                Math.abs(dir[0]) == 1 && Math.abs(dir[1]) == 0
+            ) {
+                return trace();
+            }
+        } else 
+
+        if (this.data.piece == 4) { //Queen
+            if (
+                Math.abs(dir[0]) == 1 && Math.abs(dir[1]) == 1 || 
+                Math.abs(dir[0]) == 0 && Math.abs(dir[1]) == 1 || 
+                Math.abs(dir[0]) == 1 && Math.abs(dir[1]) == 0
+            ) {
+                return trace();
+            }
+        } else 
+
+        if (this.data.piece == 5) { //King
+            if (Math.abs(diff[0]) <= 1 && Math.abs(diff[1]) <= 1) {
+                return loc;
+            }
+        }
+
+        return mloc;
     }
 
     possible(loc){

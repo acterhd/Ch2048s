@@ -7,7 +7,7 @@ class Manager {
     constructor(){
         this.graphic = null;
         this.input = null;
-        this.field = new Field(8, 8);
+        this.field = new Field(6, 6);
         this.data = {
             victory: false, 
             score: 0,

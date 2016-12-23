@@ -231,6 +231,59 @@ class Tile {
         return false;
     }
 
+    response(dir){
+        let mloc = this.data.loc;
+        let dv = gcd(dir[0], dir[1]);
+        dir = [dir[0] / dv, dir[1] / dv];
+
+        if (this.data.piece == 0) { //PAWN
+            let ydir = this.data.side == 0 ? -1 : 1;
+            return Math.abs(dir[0]) == 1 && dir[1] == ydir || Math.abs(dir[0]) == 1 && dir[1] == ydir;
+        } else 
+
+        if (this.data.piece == 1) { //Knight
+            if (
+                Math.abs(dir[0]) == 1 && Math.abs(dir[1]) == 2 ||
+                Math.abs(dir[0]) == 2 && Math.abs(dir[1]) == 1
+            ) {
+                return true;
+            }
+        } else 
+
+        if (this.data.piece == 2) { //Bishop
+            if (Math.abs(dir[0]) == 1 && Math.abs(dir[1]) == 1) {
+                return true;
+            }
+        } else 
+
+        if (this.data.piece == 3) { //Rook
+            if (
+                Math.abs(dir[0]) == 0 && Math.abs(dir[1]) == 1 || 
+                Math.abs(dir[0]) == 1 && Math.abs(dir[1]) == 0
+            ) {
+                return true;
+            }
+        } else 
+
+        if (this.data.piece == 4) { //Queen
+            if (
+                Math.abs(dir[0]) == 1 && Math.abs(dir[1]) == 1 || 
+                Math.abs(dir[0]) == 0 && Math.abs(dir[1]) == 1 || 
+                Math.abs(dir[0]) == 1 && Math.abs(dir[1]) == 0
+            ) {
+                return true;
+            }
+        } else 
+
+        if (this.data.piece == 5) { //King
+            if (Math.abs(dir[0]) <= 1 && Math.abs(dir[1]) <= 1) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     possible(loc){
         let mloc = this.data.loc;
         if (mloc[0] == loc[0] && mloc[1] == loc[1]) return false;
@@ -243,13 +296,11 @@ class Tile {
         let mn = Math.min(Math.abs(diff[0]), Math.abs(diff[1]));
         let asp = Math.max(Math.abs(diff[0] / diff[1]), Math.abs(diff[1] / diff[0]));
 
-        let gcdf = (a, b) => {
-            return (b == 0) ? a : gcdf(b, a%b);
-        }
-
         let dv = gcd(diff[0], diff[1]);
         let dir = [diff[0] / dv, diff[1] / dv];
         let tile = this.field.get(loc);
+
+        let test = this.response(dir);
 
         let trace = ()=>{
             for(let o=1;o<mx;o++){

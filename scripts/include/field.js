@@ -83,8 +83,8 @@ class Field {
             let nobody = false;
 
             let same = atile.value == tile.value;
-            let higterThanOp = tile.value * 2 == atile.value;
-            let lowerThanOp = atile.value * 2 == tile.value;
+            let higterThanOp = tile.value < atile.value;
+            let lowerThanOp = atile.value < tile.value;
 
             let withconverter = atile.data.bonus != 0;
 
@@ -93,7 +93,7 @@ class Field {
             (
                 same && opponent || 
                 higterThanOp && nobody || 
-                lowerThanOp && nobody
+                lowerThanOp && opponent
             );
 
             return possibles;

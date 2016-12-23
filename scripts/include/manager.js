@@ -48,24 +48,12 @@ class Manager {
                     tile.value = curval * 2.0;
                 } else 
                 if (oldval < curval) {
-                    tile.value = oldval;
+                    tile.value = curval;
+                    tile.data.side = tile.data.side == 0 ? 1 : 0;
                 } else {
                     tile.value = oldval;
                 }
             } 
-
-            if (owner) {
-                tile.data.side = tile.data.side == 0 ? 1 : 0;
-
-                if (oldval == curval) {
-                    tile.value = curval * 2.0;
-                } else 
-                if (oldval < curval) {
-                    tile.value = oldval;
-                } else {
-                    tile.value = oldval;
-                }
-            }
 
             if(tile.value <= 1) this.graphic.showGameover();
         

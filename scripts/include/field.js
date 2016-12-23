@@ -92,7 +92,7 @@ class Field {
             possibles = possibles && 
             (
                 same && opponent || 
-                higterThanOp && nobody || 
+                higterThanOp && opponent || 
                 lowerThanOp && opponent
             );
 

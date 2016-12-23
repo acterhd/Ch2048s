@@ -7,7 +7,7 @@ class Manager {
     constructor(){
         this.graphic = null;
         this.input = null;
-        this.field = new Field(4, 4);
+        this.field = new Field(8, 8);
         this.data = {
             victory: false, 
             score: 0,
@@ -79,9 +79,7 @@ class Manager {
         });
         this.field.ontilemove.push((tile)=>{ //when tile moved
             this.graphic.showMoved(tile);
-            let c = Math.max(Math.ceil(Math.sqrt((this.field.data.width / 4) * (this.field.data.height / 4)) * 2), 1);
-
-            
+            let c = 2;
             if (!this.data.absorbed) {
                 for(let i=0;i<c;i++){
                     if(Math.random() <= 0.5) this.field.generateTile();

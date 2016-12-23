@@ -91,7 +91,7 @@ class Field {
             //Settings with possible oppositions
             possibles = possibles && 
             (
-                same && both || 
+                same && opponent || 
                 higterThanOp && nobody || 
                 lowerThanOp && nobody
             );

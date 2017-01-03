@@ -43,7 +43,7 @@ class Manager {
             let opponent = tile.data.side != old.data.side;
             let owner = !opponent;
 
-            if (opponent) {
+            //if (opponent) {
                 if (oldval == curval) {
                     tile.value = curval * 2.0;
                 } else 
@@ -53,7 +53,7 @@ class Manager {
                 } else {
                     tile.value = oldval;
                 }
-            } 
+            //} 
 
             if(tile.value <= 1) this.graphic.showGameover();
         

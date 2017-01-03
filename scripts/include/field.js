@@ -118,7 +118,7 @@ class Field {
 
     genPiece(exceptPawn){
         let pawnr = Math.random();
-        if (pawnr < 0.4 && !exceptPawn) {
+        if (pawnr < 0.5 && !exceptPawn) {
             return 0;
         }
 

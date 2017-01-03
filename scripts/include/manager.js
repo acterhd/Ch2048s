@@ -27,7 +27,9 @@ class Manager {
         };
 
         let aftermove = (tile)=>{
-            if(Math.random() <= 0.5) this.field.generateTile();
+            for(let i=0;i<2;i++){
+                if(Math.random() <= (1.0 - Math.sqrt(0.5))) this.field.generateTile();
+            }
             this.data.absorbed = false;
 
             while(!this.field.anyPossible()) {

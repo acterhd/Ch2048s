@@ -154,12 +154,10 @@ class Field {
             tile.data.piece = this.genPiece();
             tile.data.value = Math.random() < 0.2 ? 4 : 2;
             tile.data.bonus = 0;
-
             tile.data.side = Math.random() < 0.5 ? 1 : 0;
 
-            
-            let bcheck = this.checkAny(2, 1, 1) || this.checkAny(4, 1, 1);
-            let wcheck = this.checkAny(2, 1, 0) || this.checkAny(4, 1, 0);
+            let bcheck = this.checkAny(tile.data.value, 1, 1);
+            let wcheck = this.checkAny(tile.data.value, 1, 0);
             if (bcheck && wcheck || !bcheck && !wcheck) {
                 tile.data.side = Math.random() < 0.5 ? 1 : 0;
             } else 

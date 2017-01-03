@@ -228,8 +228,14 @@ class Tile {
                     mloc[0] + off[0], 
                     mloc[1] + off[1]
                 ];
-                if(!(cloc[0] >= 0 && cloc[1] >= 0 && cloc[0] < this.field.data.width && cloc[1] < this.field.data.height)) return least;
-                if (this.field.get(cloc).tile) {return cloc;}
+                if (!(cloc[0] >= 0 && cloc[1] >= 0 && cloc[0] < this.field.data.width && cloc[1] < this.field.data.height)) return least;
+                if (this.field.get(cloc).tile) {
+                    if (this.field.possible(this.field.get(cloc).tile, cloc)) {
+                        return cloc;
+                    } else {
+                        return least;
+                    }
+                }
                 least = cloc;
             }
             return least;

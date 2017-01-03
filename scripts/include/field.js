@@ -226,6 +226,7 @@ class Field {
     move(loc, lto){
         if (loc[0] == lto[0] && loc[1] == lto[1]) return this; //Same location
         if (loc[0] >= 0 && loc[1] >= 0 && loc[0] < this.data.width && loc[1] < this.data.height) {
+        if (lto[0] >= 0 && lto[1] >= 0 && lto[0] < this.data.width && lto[1] < this.data.height) {
             let ref = this.fields[loc[1]][loc[0]];
             if (ref.tile) {
                 let tile = ref.tile;
@@ -237,13 +238,14 @@ class Field {
                 tile.data.loc[1] = lto[1];
 
                 let old = this.fields[lto[1]][lto[0]];
-                if (old.tile) {
+                if (old && old.tile) {
                     for (let f of this.ontileabsorption) f(old.tile, tile);
                 }
                 
                 this.clear(lto, tile).put(lto, tile);
                 for (let f of this.ontilemove) f(tile);
             }
+        }
         }
         return this;
     }

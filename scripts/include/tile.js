@@ -156,6 +156,7 @@ class Tile {
         let mloc = this.data.loc;
         let dv = gcd(dir[0], dir[1]);
         dir = [dir[0] / dv, dir[1] / dv];
+        console.log(dir);
 
         if (this.data.piece == 0) { //PAWN
             let ydir = this.data.side == 0 ? -1 : 1;

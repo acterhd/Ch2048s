@@ -25,11 +25,62 @@ class Manager {
             controller.graphic.showPossible(this.field.tilePossibleList(tileinfo.tile));
             controller.graphic.showSelected(tileinfo.tile);
         };
+
+        let aftermove = (tile)=>{
+            let c = this.data.absorbed ? 1 : 2;
+            for(let i=0;i<c;i++){
+                if(Math.random() <= 0.5) this.field.generateTile();
+            }
+            this.data.absorbed = false;
+
+            while(!this.field.anyPossible() || !this.field.checkAny(2, 2) && !this.field.checkAny(4, 1)) {
+                if (!this.field.generateTile()) break;
+            }
+            if (!this.field.anyPossible()) this.graphic.showGameover();
+
+            if( this.checkCondition() && !this.data.victory) {
+                this.resolveVictory();
+            }
+        };
+
         this.onmoveevent = (controller, selected, tileinfo)=>{
             if(this.field.possible(selected.tile, tileinfo.loc)) {
                 this.saveState();
                 this.field.move(selected.loc, tileinfo.loc);
+                aftermove();
             }
+
+            /*
+            let diff = [tileinfo.loc[0] - selected.loc[0], tileinfo.loc[1] - selected.loc[1]];
+            let simular = [];
+
+            for(let tile of this.field.tiles){
+                if (tile.response(diff)) {
+                    simular.push(tile);
+                }
+            }
+
+            let moved = false;
+            //for(let i=0;i<2;i++){
+                for(let tile of simular){
+                    let least = tile.least(diff);
+                    if (this.field.possible(tile, least)) {
+                        if (
+                            (least[0] != tile.loc[0] || 
+                             least[1] != tile.loc[1]) && !moved
+                        ) {
+                            moved = true;
+                            this.saveState();
+                        }
+                        tile.move(least);
+                    }
+                }
+            //}
+
+            if (moved){
+                aftermove();
+            }
+            */
 
             controller.graphic.clearShowed();
             controller.graphic.showPossible(this.field.tilePossibleList(selected.tile));
@@ -68,20 +119,6 @@ class Manager {
         });
         this.field.ontilemove.push((tile)=>{ //when tile moved
             this.graphic.showMoved(tile);
-            let c = this.data.absorbed ? 1 : 2;
-            for(let i=0;i<c;i++){
-                if(Math.random() <= 0.5) this.field.generateTile();
-            }
-            this.data.absorbed = false;
-
-            while(!this.field.anyPossible() || !this.field.checkAny(2, 2) && !this.field.checkAny(4, 1)) {
-                if (!this.field.generateTile()) break;
-            }
-            if (!this.field.anyPossible()) this.graphic.showGameover();
-
-            if( this.checkCondition() && !this.data.victory) {
-                this.resolveVictory();
-            }
         });
         this.field.ontileadd.push((tile)=>{ //when tile added
             this.graphic.pushTile(tile);
@@ -91,6 +128,7 @@ class Manager {
     get tiles(){
         return this.field.tiles;
     }
+
 
     
     saveState(){

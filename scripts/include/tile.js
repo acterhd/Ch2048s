@@ -156,7 +156,6 @@ class Tile {
         let mloc = this.data.loc;
         let dv = gcd(dir[0], dir[1]);
         dir = [dir[0] / dv, dir[1] / dv];
-        console.log(dir);
 
         if (this.data.piece == 0) { //PAWN
             let ydir = this.data.side == 0 ? -1 : 1;
@@ -229,7 +228,7 @@ class Tile {
                     mloc[0] + off[0], 
                     mloc[1] + off[1]
                 ];
-                if (!(cloc[0] >= 0 && cloc[1] >= 0 && cloc[0] < this.field.data.width && cloc[1] < this.field.data.height)) return least;
+                if (!this.field.inside(cloc)) return least;
                 if (this.field.get(cloc).tile) {
                     if (this.field.possible(this.field.get(cloc).tile, cloc)) {
                         return cloc;

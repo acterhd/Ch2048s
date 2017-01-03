@@ -205,7 +205,7 @@ class Field {
     }
     
     get(loc){
-        if (loc[0] >= 0 && loc[1] >= 0 && loc[0] < this.data.width && loc[1] < this.data.height) {
+        if (this.inside(loc)) {
             return this.fields[loc[1]][loc[0]]; //return reference
         }
         return Object.assign({}, this.defaultTilemapInfo, {
@@ -213,8 +213,12 @@ class Field {
         });
     }
     
+    inside(loc){
+        return loc[0] >= 0 && loc[1] >= 0 && loc[0] < this.data.width && loc[1] < this.data.height;
+    }
+
     put(loc, tile){
-        if (loc[0] >= 0 && loc[1] >= 0 && loc[0] < this.data.width && loc[1] < this.data.height) {
+        if (this.inside(loc)) {
             let ref = this.fields[loc[1]][loc[0]];
             ref.tileID = tile.id;
             ref.tile = tile;
@@ -225,8 +229,7 @@ class Field {
     
     move(loc, lto){
         if (loc[0] == lto[0] && loc[1] == lto[1]) return this; //Same location
-        if (loc[0] >= 0 && loc[1] >= 0 && loc[0] < this.data.width && loc[1] < this.data.height) {
-        if (lto[0] >= 0 && lto[1] >= 0 && lto[0] < this.data.width && lto[1] < this.data.height) {
+        if (this.inside(loc) && this.inside(lto)){
             let ref = this.fields[loc[1]][loc[0]];
             if (ref.tile) {
                 let tile = ref.tile;
@@ -246,12 +249,11 @@ class Field {
                 for (let f of this.ontilemove) f(tile);
             }
         }
-        }
         return this;
     }
     
     clear(loc, bytile = null){
-        if (loc[0] >= 0 && loc[1] >= 0 && loc[0] < this.data.width && loc[1] < this.data.height) {
+        if (this.inside(loc)) {
             let ref = this.fields[loc[1]][loc[0]];
             if (ref.tile) {
                 let tile = ref.tile;

@@ -27,13 +27,10 @@ class Manager {
         };
 
         let aftermove = (tile)=>{
-            let c = this.data.absorbed ? 1 : 2;
-            for(let i=0;i<c;i++){
-                if(Math.random() <= 0.5) this.field.generateTile();
-            }
+            if(Math.random() <= 0.5) this.field.generateTile();
             this.data.absorbed = false;
 
-            while(!this.field.anyPossible() || !this.field.checkAny(2, 2) && !this.field.checkAny(4, 1)) {
+            while(!this.field.anyPossible()) {
                 if (!this.field.generateTile()) break;
             }
             if (!this.field.anyPossible()) this.graphic.showGameover();
@@ -97,7 +94,6 @@ class Manager {
             //if (opponent) {
                 if (oldval == curval) {
                     tile.value = curval * 2.0;
-                    if (!opponent) tile.data.side = tile.data.side == 0 ? 1 : 0;
                 } else 
                 if (oldval < curval) {
                     tile.value = curval;

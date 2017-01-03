@@ -32,7 +32,7 @@ class Manager {
             }
             this.data.absorbed = false;
 
-            while(!this.field.anyPossible()) {
+            while(!this.field.anyPossible() || !(this.field.checkAny(2, 2, -1) || this.field.checkAny(4, 2, -1))) {
                 if (!this.field.generateTile()) break;
             }
             if (!this.field.anyPossible()) this.graphic.showGameover();

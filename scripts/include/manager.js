@@ -68,7 +68,7 @@ class Manager {
                 } else 
                 if (oldval < curval) {
                     tile.value = curval;
-                    tile.data.side = tile.data.side == 0 ? 1 : 0;
+                    tile.data.side = old.data.side;
                 } else {
                     tile.value = oldval;
                 }

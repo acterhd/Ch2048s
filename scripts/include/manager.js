@@ -27,7 +27,8 @@ class Manager {
         };
 
         let aftermove = (tile)=>{
-            for(let i=0;i<2;i++){
+            let c = this.data.absorbed ? 1 : 2;
+            for(let i=0;i<c;i++){
                 if(Math.random() <= (1.0 - Math.sqrt(0.5))) this.field.generateTile();
             }
             this.data.absorbed = false;
@@ -48,38 +49,6 @@ class Manager {
                 this.field.move(selected.loc, tileinfo.loc);
                 aftermove();
             }
-
-            /*
-            let diff = [tileinfo.loc[0] - selected.loc[0], tileinfo.loc[1] - selected.loc[1]];
-            let simular = [];
-
-            for(let tile of this.field.tiles){
-                if (tile.response(diff)) {
-                    simular.push(tile);
-                }
-            }
-
-            let moved = false;
-            //for(let i=0;i<2;i++){
-                for(let tile of simular){
-                    let least = tile.least(diff);
-                    if (this.field.possible(tile, least)) {
-                        if (
-                            (least[0] != tile.loc[0] || 
-                             least[1] != tile.loc[1]) && !moved
-                        ) {
-                            moved = true;
-                            this.saveState();
-                        }
-                        tile.move(least);
-                    }
-                }
-            //}
-
-            if (moved){
-                aftermove();
-            }
-            */
 
             controller.graphic.clearShowed();
             controller.graphic.showPossible(this.field.tilePossibleList(selected.tile));

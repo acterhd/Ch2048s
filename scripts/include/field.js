@@ -87,8 +87,17 @@ class Field {
             let lowerThanOp = atile.value < tile.value;
 
             let withconverter = atile.data.bonus != 0;
-
+            let twoAndOne = tile.value == 2 && atile.value == 1 || atile.value == 2 && tile.value == 1;
+            let exceptTwo = !(tile.value == 2 && tile.value == atile.value);
+            
             //Settings with possible oppositions
+            
+            let threesLike = (
+                same && exceptTwo && both || 
+                twoAndOne && both || 
+                higterThanOp && nobody || 
+                lowerThanOp && nobody
+            );
             
             let chessLike = (
                 same && opponent || 
@@ -102,7 +111,7 @@ class Field {
                 lowerThanOp && nobody
             );
             
-            possibles = possibles && classicLike;
+            possibles = possibles && threesLike;
 
             return possibles;
         } else {
@@ -160,7 +169,8 @@ class Field {
 
         if(notOccupied.length > 0){
             tile.data.piece = this.genPiece();
-            tile.data.value = Math.random() < 0.2 ? 4 : 2;
+            //tile.data.value = Math.random() < 0.2 ? 4 : 2;
+            tile.data.value = Math.random() < 0.2 ? 2 : 1;
             tile.data.bonus = 0;
             tile.data.side = Math.random() < 0.5 ? 1 : 0;
 

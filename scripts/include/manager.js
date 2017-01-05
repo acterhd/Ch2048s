@@ -13,7 +13,8 @@ class Manager {
             score: 0,
             movecounter: 0,
             absorbed: 0, 
-            conditionValue: 2048
+            //conditionValue: 2048
+            conditionValue: 12288
         };
         this.states = [];
 
@@ -33,7 +34,8 @@ class Manager {
             }
             this.data.absorbed = false;
 
-            while(!this.field.anyPossible() || !(this.field.checkAny(2, 2, -1) || this.field.checkAny(4, 2, -1))) {
+            //while(!this.field.anyPossible() || !(this.field.checkAny(2, 2, -1) || this.field.checkAny(4, 2, -1))) { //Classic
+            while(!this.field.anyPossible() || !(this.field.checkAny(1, 1, -1) || this.field.checkAny(2, 1, -1))) { //Thress
                 if (!this.field.generateTile()) break;
             }
             if (!this.field.anyPossible()) this.graphic.showGameover();
@@ -63,7 +65,11 @@ class Manager {
             let owner = !opponent;
 
             //if (opponent) {
-                if (oldval == curval) {
+                
+                if (
+                    oldval == curval 
+                    || oldval == 1 && curval == 2 || oldval == 2 && curval == 1 //Thress-like 
+                ) {
                     tile.value += oldval;
                 } else 
                 if (oldval < curval) {
@@ -74,7 +80,7 @@ class Manager {
                 }
             //} 
 
-            if(tile.value <= 1) this.graphic.showGameover();
+            if(tile.value < 1) this.graphic.showGameover();
         
             this.data.score += tile.value;
             this.data.absorbed = true;

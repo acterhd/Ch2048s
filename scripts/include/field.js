@@ -111,7 +111,7 @@ class Field {
                 lowerThanOp && nobody
             );
             
-            possibles = possibles && threesLike;
+            possibles = possibles && classicLike;
 
             return possibles;
         } else {
@@ -169,8 +169,8 @@ class Field {
 
         if(notOccupied.length > 0){
             tile.data.piece = this.genPiece();
-            //tile.data.value = Math.random() < 0.2 ? 4 : 2;
-            tile.data.value = Math.random() < 0.2 ? 2 : 1;
+            tile.data.value = Math.random() < 0.2 ? 4 : 2;
+            //tile.data.value = Math.random() < 0.2 ? 2 : 1;
             tile.data.bonus = 0;
             tile.data.side = Math.random() < 0.5 ? 1 : 0;
 

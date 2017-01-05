@@ -13,8 +13,8 @@ class Manager {
             score: 0,
             movecounter: 0,
             absorbed: 0, 
-            //conditionValue: 2048
-            conditionValue: 12288
+            conditionValue: 2048
+            //conditionValue: 12288 //Threes-like
         };
         this.states = [];
 
@@ -34,8 +34,8 @@ class Manager {
             }
             this.data.absorbed = false;
 
-            //while(!this.field.anyPossible() || !(this.field.checkAny(2, 2, -1) || this.field.checkAny(4, 2, -1))) { //Classic
-            while(!this.field.anyPossible() || !(this.field.checkAny(1, 1, -1) || this.field.checkAny(2, 1, -1))) { //Thress
+            while(!this.field.anyPossible() || !(this.field.checkAny(2, 2, -1) || this.field.checkAny(4, 2, -1))) { //Classic
+            //while(!this.field.anyPossible() || !(this.field.checkAny(1, 1, -1) || this.field.checkAny(2, 1, -1))) { //Thress
                 if (!this.field.generateTile()) break;
             }
             if (!this.field.anyPossible()) this.graphic.showGameover();
@@ -68,7 +68,7 @@ class Manager {
                 
                 if (
                     oldval == curval 
-                    || oldval == 1 && curval == 2 || oldval == 2 && curval == 1 //Thress-like 
+                    //|| oldval == 1 && curval == 2 || oldval == 2 && curval == 1 //Thress-like 
                 ) {
                     tile.value += oldval;
                 } else 

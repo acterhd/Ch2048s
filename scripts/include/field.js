@@ -89,12 +89,20 @@ class Field {
             let withconverter = atile.data.bonus != 0;
 
             //Settings with possible oppositions
-            possibles = possibles && 
-            (
+            
+            let chessLike = (
                 same && opponent || 
                 higterThanOp && opponent || 
                 lowerThanOp && opponent
             );
+            
+            let classicLike = (
+                same && both || 
+                higterThanOp && nobody || 
+                lowerThanOp && nobody
+            );
+            
+            possibles = possibles && classicLike;
 
             return possibles;
         } else {

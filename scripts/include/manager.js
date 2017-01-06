@@ -107,9 +107,7 @@ class Manager {
 
                 let movedcnt = 0;
                 for(let tile of tileList){
-                    if (tile.queue[0] != diff[0] || tile.queue[1] != diff[1]) {
-                        movedcnt++
-                    }
+                    if (tile.moved) movedcnt++;
                     tile.queue[0] = 0;
                     tile.queue[1] = 0;
                 }

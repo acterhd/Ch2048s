@@ -89,6 +89,7 @@ class Field {
             let withconverter = atile.data.bonus != 0;
             let twoAndOne = tile.value == 2 && atile.value == 1 || atile.value == 2 && tile.value == 1;
             let exceptTwo = !(tile.value == 2 && tile.value == atile.value);
+            let exceptOne = !(tile.value == 1 && tile.value == atile.value);
             
             //Settings with possible oppositions
             

@@ -3,6 +3,24 @@
 import { Field } from "./field";
 import { Tile } from "./tile";
 
+function gcd(a,b) {
+    if (a < 0) a = -a;
+    if (b < 0) b = -b;
+    if (b > a) {var temp = a; a = b; b = temp;}
+    while (true) {
+        if (b == 0) return a;
+        a %= b;
+        if (a == 0) return b;
+        b %= a;
+    }
+}
+
+Array.prototype.set = function(array, offset = 0){
+    for (let i=0;i<array.length;i++) {
+        this[offset + i] = array[i];
+    }
+}
+
 class Manager {
     constructor(){
         this.graphic = null;
@@ -51,9 +69,45 @@ class Manager {
                 //this.field.move(selected.loc, tileinfo.loc);
 
                 let diff = [tileinfo.loc[0] - selected.loc[0], tileinfo.loc[1] - selected.loc[1]];
-                let least = selected.tile.least(diff);
-                this.field.move(selected.loc, least);
-                aftermove();
+                let dv = gcd(diff[0], diff[1]);
+                let dir = [diff[0] / dv, diff[1] / dv];
+                let mx = Math.max(Math.abs(diff[0]), Math.abs(diff[1]));
+
+                //let tileList = [selected.tile];
+                let tileList = this.field.tiles.concat([]);
+                //let tileList = this.field.tilesByDirection(diff);
+
+                tileList.sort((tile, op)=>{
+                    let shiftingX = Math.sign(-dir[0] * (tile.loc[0] - op.loc[0]));
+                    return Math.sign(shiftingX);
+                });
+
+                tileList.sort((tile, op)=>{
+                    let shiftingY = Math.sign(-dir[1] * (tile.loc[1] - op.loc[1]));
+                    return Math.sign(shiftingY);
+                });
+                
+                
+                for(let tile of tileList){
+                    tile.setQueue([diff[0], diff[1]]);
+                }
+                
+                for(let i=0;i<=mx;i++){
+                    for(let tile of tileList){
+                        tile.move(tile.leastQueue());
+                    }
+                }
+
+                let movedcnt = 0;
+                for(let tile of tileList){
+                    if (tile.queue[0] != diff[0] || tile.queue[1] != diff[1]) {
+                        movedcnt++
+                    }
+                    tile.queue[0] = 0;
+                    tile.queue[1] = 0;
+                }
+
+                if(movedcnt > 0) aftermove();
             }
 
             controller.graphic.clearShowed();
@@ -119,11 +173,13 @@ class Manager {
         for(let tile of this.field.tiles){
             state.tiles.push({
                 loc: tile.data.loc.concat([]), 
+                queue: tile.data.queue.concat([]), 
                 piece: tile.data.piece, 
                 side: tile.data.side, 
                 value: tile.data.value,
-                prev: tile.data.prev, 
-                bonus: tile.data.bonus
+                prev: tile.data.prev.concat([]), 
+                bonus: tile.data.bonus, 
+                moved: tile.data.moved
             });
         }
         this.states.push(state);
@@ -143,12 +199,14 @@ class Manager {
 
         for(let tdat of state.tiles) {
             let tile = new Tile();
+            tile.data.queue.set(tdat.queue);
             tile.data.piece = tdat.piece;
             tile.data.value = tdat.value;
             tile.data.side = tdat.side;
-            tile.data.loc = tdat.loc;
-            tile.data.prev = tdat.prev;
+            tile.data.loc.set(tdat.loc);
+            tile.data.prev.set(tdat.prev);
             tile.data.bonus = tdat.bonus;
+            tile.data.moved = tdat.moved;
             tile.attach(this.field, tdat.loc);
         }
 

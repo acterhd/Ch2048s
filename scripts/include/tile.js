@@ -70,7 +70,9 @@ class Tile {
             piece: 0, 
             loc: [-1, -1], //x, y
             prev: [-1, -1], 
-            side: 0 //White = 0, Black = 1
+            side: 0, //White = 0, Black = 1
+            queue: [0, 0], 
+            moved: false
         };
         this.id = tcounter++;
     }
@@ -83,12 +85,34 @@ class Tile {
         this.data.value = v;
     }
 
+    get diff(){
+        return [this.data.loc[0] - this.data.prev[0], this.data.loc[1] - this.data.prev[1]];
+    }
+
     get loc(){
         return this.data.loc;
     }
 
+    get prev(){
+        return this.data.prev;
+    }
+
     set loc(v){
         this.data.loc = v;
+    }
+
+    onhit(){
+        return this;
+    }
+
+    onabsorb(){
+        return this;
+    }
+
+    onmove(){
+        this.data.queue[0] -= this.loc[0] - this.prev[0];
+        this.data.queue[1] -= this.loc[1] - this.prev[1];
+        return this;
     }
 
     attach(field, x, y){
@@ -123,6 +147,17 @@ class Tile {
         this.data.loc[1] = a[1];
     }
     
+    get queue(){
+        return this.data.queue;
+    }
+
+    setQueue(diff){
+        this.data.moved = false;
+        this.data.queue[0] = diff[0];
+        this.data.queue[1] = diff[1];
+        return this;
+    }
+
     cacheLoc(){
         this.data.prev[0] = this.data.loc[0];
         this.data.prev[1] = this.data.loc[1];
@@ -152,6 +187,21 @@ class Tile {
         return this;
     }
 
+    
+
+
+
+    responsive(dir){
+        let mloc = this.data.loc;
+        let least = this.least(dir);
+        if (least[0] != mloc[0] || least[1] != mloc[1]) return true;
+        return false;
+    }
+
+    leastQueue(){
+        return this.least(this.queue);
+    }
+
     least(diff){
         let mloc = this.data.loc;
         if (diff[0] == 0 && diff[1] == 0) return [mloc[0], mloc[1]];
@@ -165,7 +215,7 @@ class Tile {
 
         let trace = ()=>{
             let least = [mloc[0], mloc[1]];
-            for(let o=1;o<100;o++){
+            for(let o=1;o<=mx;o++){
                 let off = [
                     Math.floor(dir[0] * o), 
                     Math.floor(dir[1] * o)
@@ -270,16 +320,12 @@ class Tile {
                     Math.floor(dir[0] * o), 
                     Math.floor(dir[1] * o)
                 ];
-
                 let cloc = [
                     mloc[0] + off[0], 
                     mloc[1] + off[1]
                 ];
-                if (!this.field.inside(cloc)) break;
-
-                if (this.field.get(cloc).tile) {
-                    return false;
-                }
+                if (!this.field.inside(cloc)) return false;
+                if (this.field.get(cloc).tile) return false;
             }
             return true;
         }

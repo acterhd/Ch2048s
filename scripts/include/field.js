@@ -135,6 +135,8 @@ class Field {
     }
 
     genPiece(exceptPawn){
+        //return 3; //Debug
+
         let pawnr = Math.random();
         if (pawnr < 0.4 && !exceptPawn) {
             return 0;
@@ -195,6 +197,13 @@ class Field {
         return true;
     }
 
+    tilesByDirection(diff){
+        let tiles = [];
+        for(let tile of this.tiles){
+            if (tile.responsive(diff)) tiles.push(tile);
+        }
+        return tiles;
+    }
 
     init(){
         this.tiles.splice(0, this.tiles.length);
@@ -245,24 +254,28 @@ class Field {
     }
     
     move(loc, lto){
+        let tile = this.getTile(loc);
         if (loc[0] == lto[0] && loc[1] == lto[1]) return this; //Same location
-        if (this.inside(loc) && this.inside(lto)){
-            let ref = this.fields[loc[1]][loc[0]];
+        if (this.inside(loc) && this.inside(lto) && tile && !tile.moved && this.possible(tile, lto)){
+            let ref = this.get(loc);
             if (ref.tile) {
-                let tile = ref.tile;
                 ref.tileID = -1;
                 ref.tile = null;
                 tile.data.prev[0] = tile.data.loc[0];
                 tile.data.prev[1] = tile.data.loc[1];
                 tile.data.loc[0] = lto[0];
                 tile.data.loc[1] = lto[1];
+                tile.data.moved = true;
 
                 let old = this.fields[lto[1]][lto[0]];
                 if (old && old.tile) {
+                    old.tile.onabsorb();
+                    tile.onhit();
                     for (let f of this.ontileabsorption) f(old.tile, tile);
                 }
                 
                 this.clear(lto, tile).put(lto, tile);
+                tile.onmove();
                 for (let f of this.ontilemove) f(tile);
             }
         }

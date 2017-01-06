@@ -50,7 +50,8 @@ class Manager {
             let c = 1;
             for(let i=0;i<c;i++){
                 //if(Math.random() < 0.3333) this.field.generateTile();
-                if(Math.random() < 1.0) this.field.generateTile();
+                //if(Math.random() < 1.0) this.field.generateTile();
+                if(Math.random() < 0.6666) this.field.generateTile();
             }
             this.data.absorbed = false;
 
@@ -80,8 +81,8 @@ class Manager {
                 diff[0] = dir[0] * this.field.width;
                 diff[1] = dir[1] * this.field.height;
 
-                //let tileList = [selected.tile];
-                let tileList = this.field.tiles.concat([]); // 2048 alike moving (grouping)
+                let tileList = [selected.tile];
+                //let tileList = this.field.tiles.concat([]); // 2048 alike moving (grouping)
                 //let tileList = this.field.tilesByDirection(diff);
 
                 tileList.sort((tile, op)=>{

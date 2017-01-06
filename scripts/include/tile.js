@@ -152,6 +152,102 @@ class Tile {
         return this;
     }
 
+    least(diff){
+        let mloc = this.data.loc;
+        if (diff[0] == 0 && diff[1] == 0) return [mloc[0], mloc[1]];
+
+        let mx = Math.max(Math.abs(diff[0]), Math.abs(diff[1]));
+        let mn = Math.min(Math.abs(diff[0]), Math.abs(diff[1]));
+        let asp = Math.max(Math.abs(diff[0] / diff[1]), Math.abs(diff[1] / diff[0]));
+
+        let dv = gcd(diff[0], diff[1]);
+        let dir = [diff[0] / dv, diff[1] / dv];
+
+        let trace = ()=>{
+            let least = [mloc[0], mloc[1]];
+            for(let o=1;o<100;o++){
+                let off = [
+                    Math.floor(dir[0] * o), 
+                    Math.floor(dir[1] * o)
+                ];
+
+                let cloc = [
+                    mloc[0] + off[0], 
+                    mloc[1] + off[1]
+                ];
+
+                if (!this.field.inside(cloc) || !this.field.possible(this, cloc)) return least;
+
+                least[0] = cloc[0];
+                least[1] = cloc[1];
+
+                if (this.field.get(cloc).tile) {
+                    return least;
+                }
+            }
+            return least;
+        }
+
+        if (this.data.piece == 0) { //PAWN
+            let ydir = this.data.side == 0 ? -1 : 1;
+            if (diff[1] == ydir){
+                let cloc = [mloc[0] + dir[0], mloc[1] + dir[1]];
+                if(this.field.possible(this, cloc)) return cloc;
+            }
+        } else 
+
+        if (this.data.piece == 1) { //Knight
+            if (
+                Math.abs(dir[0]) == 1 && Math.abs(dir[1]) == 2 ||
+                Math.abs(dir[0]) == 2 && Math.abs(dir[1]) == 1
+            ) {
+                let cloc = [mloc[0] + dir[0], mloc[1] + dir[1]];
+                if(this.field.possible(this, cloc)) return cloc;
+            }
+        } else 
+
+        if (this.data.piece == 2) { //Bishop
+            if (Math.abs(dir[0]) == 1 && Math.abs(dir[1]) == 1) {
+                return trace();
+            }
+        } else 
+
+        if (this.data.piece == 3) { //Rook
+            if (
+                Math.abs(dir[0]) == 0 && Math.abs(dir[1]) == 1 || 
+                Math.abs(dir[0]) == 1 && Math.abs(dir[1]) == 0
+            ) {
+                return trace();
+            }
+        } else 
+
+        if (this.data.piece == 4) { //Queen
+            if (
+                Math.abs(dir[0]) == 1 && Math.abs(dir[1]) == 1 || 
+                Math.abs(dir[0]) == 0 && Math.abs(dir[1]) == 1 || 
+                Math.abs(dir[0]) == 1 && Math.abs(dir[1]) == 0
+            ) {
+                return trace();
+            }
+        } else 
+
+        if (this.data.piece == 5) { //King
+            if (Math.abs(dir[0]) <= 1 && Math.abs(dir[1]) <= 1) {
+                let cloc = [mloc[0] + dir[0], mloc[1] + dir[1]];
+                if(this.field.possible(this, cloc)) return cloc;
+            }
+        }
+
+        return [mloc[0], mloc[1]];
+    }
+
+
+
+
+
+
+
+
     possible(loc){
         let mloc = this.data.loc;
         if (mloc[0] == loc[0] && mloc[1] == loc[1]) return false;

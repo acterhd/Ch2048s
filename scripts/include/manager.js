@@ -48,7 +48,11 @@ class Manager {
         this.onmoveevent = (controller, selected, tileinfo)=>{
             if(this.field.possible(selected.tile, tileinfo.loc)) {
                 this.saveState();
-                this.field.move(selected.loc, tileinfo.loc);
+                //this.field.move(selected.loc, tileinfo.loc);
+
+                let diff = [tileinfo.loc[0] - selected.loc[0], tileinfo.loc[1] - selected.loc[1]];
+                let least = selected.tile.least(diff);
+                this.field.move(selected.loc, least);
                 aftermove();
             }
 

@@ -30,7 +30,7 @@ class Manager {
         let aftermove = (tile)=>{
             let c = this.data.absorbed ? 1 : 2;
             for(let i=0;i<c;i++){
-                if(Math.random() < 0.5) this.field.generateTile();
+                if(Math.random() < 0.3333) this.field.generateTile();
             }
             this.data.absorbed = false;
 

@@ -73,8 +73,8 @@ class Manager {
                 let dir = [diff[0] / dv, diff[1] / dv];
                 let mx = Math.max(Math.abs(diff[0]), Math.abs(diff[1]));
 
-                //let tileList = [selected.tile];
-                let tileList = this.field.tiles.concat([]);
+                let tileList = [selected.tile];
+                //let tileList = this.field.tiles.concat([]);
                 //let tileList = this.field.tilesByDirection(diff);
 
                 tileList.sort((tile, op)=>{

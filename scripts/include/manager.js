@@ -54,7 +54,8 @@ class Manager {
             }
             this.data.absorbed = false;
 
-            while(!this.field.anyPossible() || !(this.field.checkAny(2, 2, -1) || this.field.checkAny(4, 2, -1))) { //Classic
+            while(!this.field.anyPossible()) { //2048
+            //while(!this.field.anyPossible() || !(this.field.checkAny(2, 2, -1) || this.field.checkAny(4, 2, -1))) { //Classic
             //while(!this.field.anyPossible() || !(this.field.checkAny(1, 1, -1) || this.field.checkAny(2, 1, -1))) { //Thress
                 if (!this.field.generateTile()) break;
             }

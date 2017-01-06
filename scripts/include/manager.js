@@ -78,12 +78,12 @@ class Manager {
                 //let tileList = this.field.tilesByDirection(diff);
 
                 tileList.sort((tile, op)=>{
-                    let shiftingX = Math.sign(-dir[0] * (tile.loc[0] - op.loc[0]));
+                    let shiftingX = Math.sign(dir[0] * (tile.loc[0] - op.loc[0]));
                     return Math.sign(shiftingX);
                 });
 
                 tileList.sort((tile, op)=>{
-                    let shiftingY = Math.sign(-dir[1] * (tile.loc[1] - op.loc[1]));
+                    let shiftingY = Math.sign(dir[1] * (tile.loc[1] - op.loc[1]));
                     return Math.sign(shiftingY);
                 });
                 

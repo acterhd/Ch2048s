@@ -256,28 +256,27 @@ class Field {
     move(loc, lto){
         let tile = this.getTile(loc);
         if (loc[0] == lto[0] && loc[1] == lto[1]) return this; //Same location
-        if (this.inside(loc) && this.inside(lto) && tile && !tile.moved && this.possible(tile, lto)){
+        if (this.inside(loc) && this.inside(lto) && tile && !tile.data.moved && this.possible(tile, lto)){
             let ref = this.get(loc);
-            if (ref.tile) {
-                ref.tileID = -1;
-                ref.tile = null;
-                tile.data.prev[0] = tile.data.loc[0];
-                tile.data.prev[1] = tile.data.loc[1];
-                tile.data.loc[0] = lto[0];
-                tile.data.loc[1] = lto[1];
-                tile.data.moved = true;
+            ref.tileID = -1;
+            ref.tile = null;
 
-                let old = this.fields[lto[1]][lto[0]];
-                if (old && old.tile) {
-                    old.tile.onabsorb();
-                    tile.onhit();
-                    for (let f of this.ontileabsorption) f(old.tile, tile);
-                }
-                
-                this.clear(lto, tile).put(lto, tile);
-                tile.onmove();
-                for (let f of this.ontilemove) f(tile);
+            tile.data.moved = true;
+            tile.data.prev[0] = tile.data.loc[0];
+            tile.data.prev[1] = tile.data.loc[1];
+            tile.data.loc[0] = lto[0];
+            tile.data.loc[1] = lto[1];
+
+            let old = this.fields[lto[1]][lto[0]];
+            if (old && old.tile) {
+                old.tile.onabsorb();
+                tile.onhit();
+                for (let f of this.ontileabsorption) f(old.tile, tile);
             }
+            
+            this.clear(lto, tile).put(lto, tile);
+            tile.onmove();
+            for (let f of this.ontilemove) f(tile);
         }
         return this;
     }

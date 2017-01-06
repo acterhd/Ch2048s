@@ -138,6 +138,10 @@ class Tile {
         return this;
     }
     
+    get moved(){
+        return this.data.moved;
+    }
+
     get loc(){
         return this.data.loc;
     }
@@ -240,7 +244,7 @@ class Tile {
 
         if (this.data.piece == 0) { //PAWN
             let ydir = this.data.side == 0 ? -1 : 1;
-            if (diff[1] == ydir){
+            if (dir[1] == ydir){
                 let cloc = [mloc[0] + dir[0], mloc[1] + dir[1]];
                 if(this.field.possible(this, cloc)) return cloc;
             }

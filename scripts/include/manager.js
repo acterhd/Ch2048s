@@ -46,9 +46,11 @@ class Manager {
         };
 
         let aftermove = (tile)=>{
-            let c = this.data.absorbed ? 1 : 2;
+            //let c = this.data.absorbed ? 1 : 2;
+            let c = 1;
             for(let i=0;i<c;i++){
-                if(Math.random() < 0.3333) this.field.generateTile();
+                //if(Math.random() < 0.3333) this.field.generateTile();
+                if(Math.random() < 1.0) this.field.generateTile();
             }
             this.data.absorbed = false;
 
@@ -73,17 +75,20 @@ class Manager {
                 let dir = [diff[0] / dv, diff[1] / dv];
                 let mx = Math.max(Math.abs(diff[0]), Math.abs(diff[1]));
 
-                let tileList = [selected.tile];
-                //let tileList = this.field.tiles.concat([]);
+                diff[0] = dir[0] * this.field.width;
+                diff[1] = dir[1] * this.field.height;
+
+                //let tileList = [selected.tile];
+                let tileList = this.field.tiles.concat([]);
                 //let tileList = this.field.tilesByDirection(diff);
 
                 tileList.sort((tile, op)=>{
-                    let shiftingX = Math.sign(dir[0] * (tile.loc[0] - op.loc[0]));
+                    let shiftingX = Math.sign(-dir[0] * (tile.loc[0] - op.loc[0]));
                     return Math.sign(shiftingX);
                 });
 
                 tileList.sort((tile, op)=>{
-                    let shiftingY = Math.sign(dir[1] * (tile.loc[1] - op.loc[1]));
+                    let shiftingY = Math.sign(-dir[1] * (tile.loc[1] - op.loc[1]));
                     return Math.sign(shiftingY);
                 });
                 

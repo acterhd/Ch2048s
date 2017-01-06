@@ -76,11 +76,12 @@ class Manager {
                 let dir = [diff[0] / dv, diff[1] / dv];
                 let mx = Math.max(Math.abs(diff[0]), Math.abs(diff[1]));
 
+                // 2048 alike
                 diff[0] = dir[0] * this.field.width;
                 diff[1] = dir[1] * this.field.height;
 
                 //let tileList = [selected.tile];
-                let tileList = this.field.tiles.concat([]);
+                let tileList = this.field.tiles.concat([]); // 2048 alike moving (grouping)
                 //let tileList = this.field.tilesByDirection(diff);
 
                 tileList.sort((tile, op)=>{

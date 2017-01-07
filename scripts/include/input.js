@@ -82,7 +82,12 @@ class Input {
 
         let pos = graphic.calculateGraphicsPosition(object.loc);
         let border = this.graphic.params.border;
-        let area = interactive.object.rect(pos[0] - border/2, pos[1] - border/2, params.tile.width + border, params.tile.height + border).click(()=>{
+        let w = params.tile.width + border;
+        let h = params.tile.height + border;
+
+        let area = interactive.object.rect(0, 0, w, h).transform(
+            `translate(${pos[0] - border/2}, ${pos[1] - border/2}`
+        ).click(()=>{
             if (!this.selected) {
                 let selected = field.get(object.loc);
                 if (selected) {

@@ -70,6 +70,7 @@ function gcd(a,b) {
     }
 }
 
+
 class Tile {
     constructor(){
         this.field = null;
@@ -224,10 +225,11 @@ class Tile {
 
         let dv = gcd(diff[0], diff[1]);
         let dir = [diff[0] / dv, diff[1] / dv];
+        let d = Math.max(Math.ceil(diff[0] == 0 ? 0 : diff[0] / dir[0]), Math.ceil(diff[1] == 0 ? 0 : diff[1] / dir[1]));
 
         let trace = ()=>{
             let least = [mloc[0], mloc[1]];
-            for(let o=1;o<=mx;o++){
+            for(let o=1;o<=d;o++){
                 let off = [
                     Math.floor(dir[0] * o), 
                     Math.floor(dir[1] * o)
@@ -312,16 +314,17 @@ class Tile {
             loc[0] - mloc[0],
             loc[1] - mloc[1],
         ];
-        let mx = Math.max(Math.abs(diff[0]), Math.abs(diff[1]));
-        let mn = Math.min(Math.abs(diff[0]), Math.abs(diff[1]));
+        //let mx = Math.max(Math.abs(diff[0]), Math.abs(diff[1]));
+        //let mn = Math.min(Math.abs(diff[0]), Math.abs(diff[1]));
         let asp = Math.max(Math.abs(diff[0] / diff[1]), Math.abs(diff[1] / diff[0]));
 
         let dv = gcd(diff[0], diff[1]);
         let dir = [diff[0] / dv, diff[1] / dv];
         let tile = this.field.get(loc);
+        let d = Math.max(Math.ceil(diff[0] == 0 ? 0 : diff[0] / dir[0]), Math.ceil(diff[1] == 0 ? 0 : diff[1] / dir[1]));
 
         let trace = ()=>{
-            for(let o=1;o<mx;o++){
+            for(let o=1;o<d;o++){
                 let off = [
                     Math.floor(dir[0] * o), 
                     Math.floor(dir[1] * o)
@@ -330,7 +333,7 @@ class Tile {
                     mloc[0] + off[0], 
                     mloc[1] + off[1]
                 ];
-                if (!this.field.inside(cloc)) return false;
+                if (!this.field.inside(cloc) || !this.field.isAvailable(cloc)) return false;
                 if (this.field.get(cloc).tile) return false;
             }
             return true;

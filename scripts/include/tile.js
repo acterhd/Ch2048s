@@ -46,6 +46,14 @@ let pmdirsNeg = [
 ];
 
 
+function matchDirection(dir, list){
+    for(let ldir of list){
+        if (dir[0] == ldir[0] && dir[1] == ldir[1]) return true; 
+    }
+    return false;
+}
+
+
 let qdirs = rdirs.concat(bdirs); //may not need
 
 let tcounter = 0;
@@ -243,50 +251,42 @@ class Tile {
         }
 
         if (this.data.piece == 0) { //PAWN
-            let ydir = this.data.side == 0 ? -1 : 1;
-            if (dir[1] == ydir){
+            if (
+                matchDirection(dir, this.data.side == 0 ? pmdirs : pmdirsNeg) || 
+                matchDirection(dir, this.data.side == 0 ? padirs : padirsNeg)
+            ) {
                 let cloc = [mloc[0] + dir[0], mloc[1] + dir[1]];
                 if(this.possible(cloc)) return cloc;
             }
         } else 
 
         if (this.data.piece == 1) { //Knight
-            if (
-                Math.abs(dir[0]) == 1 && Math.abs(dir[1]) == 2 ||
-                Math.abs(dir[0]) == 2 && Math.abs(dir[1]) == 1
-            ) {
+            if (matchDirection(dir, kmovemap)) {
                 let cloc = [mloc[0] + dir[0], mloc[1] + dir[1]];
                 if(this.possible(cloc)) return cloc;
             }
         } else 
 
         if (this.data.piece == 2) { //Bishop
-            if (Math.abs(dir[0]) == 1 && Math.abs(dir[1]) == 1) {
+            if (matchDirection(dir, bdirs)) {
                 return trace();
             }
         } else 
 
         if (this.data.piece == 3) { //Rook
-            if (
-                Math.abs(dir[0]) == 0 && Math.abs(dir[1]) == 1 || 
-                Math.abs(dir[0]) == 1 && Math.abs(dir[1]) == 0
-            ) {
+            if (matchDirection(dir, rdirs)) {
                 return trace();
             }
         } else 
 
         if (this.data.piece == 4) { //Queen
-            if (
-                Math.abs(dir[0]) == 1 && Math.abs(dir[1]) == 1 || 
-                Math.abs(dir[0]) == 0 && Math.abs(dir[1]) == 1 || 
-                Math.abs(dir[0]) == 1 && Math.abs(dir[1]) == 0
-            ) {
+            if (matchDirection(dir, qdirs)) {
                 return trace();
             }
         } else 
 
         if (this.data.piece == 5) { //King
-            if (Math.abs(dir[0]) <= 1 && Math.abs(dir[1]) <= 1) {
+            if (matchDirection(dir, qdirs)) {
                 let cloc = [mloc[0] + dir[0], mloc[1] + dir[1]];
                 if(this.possible(cloc)) return cloc;
             }
@@ -337,50 +337,39 @@ class Tile {
         }
 
         if (this.data.piece == 0) { //PAWN
-            let ydir = this.data.side == 0 ? -1 : 1;
             if (tile.tile) {
-                return Math.abs(diff[0]) == 1 && diff[1] == ydir;
+                return matchDirection(diff, this.data.side == 0 ? padirs : padirsNeg);
             } else {
-                return Math.abs(diff[0]) == 0 && diff[1] == ydir;
+                return matchDirection(diff, this.data.side == 0 ? pmdirs : pmdirsNeg);
             }
         } else 
 
         if (this.data.piece == 1) { //Knight
-            if (
-                Math.abs(diff[0]) == 1 && Math.abs(diff[1]) == 2 ||
-                Math.abs(diff[0]) == 2 && Math.abs(diff[1]) == 1
-            ) {
+            if (matchDirection(diff, kmovemap)) {
                 return true;
             }
         } else 
 
         if (this.data.piece == 2) { //Bishop
-            if (Math.abs(dir[0]) == 1 && Math.abs(dir[1]) == 1) {
+            if (matchDirection(dir, bdirs)) {
                 return trace();
             }
         } else 
 
         if (this.data.piece == 3) { //Rook
-            if (
-                Math.abs(dir[0]) == 0 && Math.abs(dir[1]) == 1 || 
-                Math.abs(dir[0]) == 1 && Math.abs(dir[1]) == 0
-            ) {
+            if (matchDirection(dir, rdirs)) {
                 return trace();
             }
         } else 
 
         if (this.data.piece == 4) { //Queen
-            if (
-                Math.abs(dir[0]) == 1 && Math.abs(dir[1]) == 1 || 
-                Math.abs(dir[0]) == 0 && Math.abs(dir[1]) == 1 || 
-                Math.abs(dir[0]) == 1 && Math.abs(dir[1]) == 0
-            ) {
+            if (matchDirection(dir, qdirs)) {
                 return trace();
             }
         } else 
 
         if (this.data.piece == 5) { //King
-            if (Math.abs(diff[0]) <= 1 && Math.abs(diff[1]) <= 1) {
+            if (matchDirection(diff, qdirs)) {
                 return true;
             }
         }

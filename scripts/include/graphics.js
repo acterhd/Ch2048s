@@ -176,11 +176,14 @@ class GraphicsEngine {
 
         let s = this.graphicsLayers[2].object;
         let radius = 5;
+        let w = params.tile.width; 
+        let h = params.tile.height;
+
         let rect = s.rect(
             0, 
             0, 
-            params.tile.width, 
-            params.tile.height,
+            w, 
+            h, 
             radius, radius
         );
 
@@ -604,11 +607,15 @@ class GraphicsEngine {
 
         let s = this.graphicsLayers[1].object;
         let radius = 5;
+
+        let w = params.tile.width;
+        let h = params.tile.height;
+
         let rect = s.rect(
             0, 
             0, 
-            params.tile.width, 
-            params.tile.height,
+            w,
+            h, 
             radius, radius
         );
 
@@ -619,18 +626,18 @@ class GraphicsEngine {
             "", 
             fillsizew, 
             fillsizeh, 
-            params.tile.width  - fillsizew * 2, 
-            params.tile.height - fillsizeh * 2
+            w  - fillsizew * 2, 
+            h - fillsizeh * 2
         );
 
-        let text = s.text(params.tile.width / 2, params.tile.height / 2 + params.tile.height * 0.35, "TEST");
+        let text = s.text(w / 2, h / 2 + h * 0.35, "TEST");
         let group = s.group(rect, icon, text);
         
         group.transform(`
             translate(${pos[0]}, ${pos[1]}) 
-            translate(${params.tile.width/2}, ${params.tile.width/2}) 
+            translate(${w/2}, ${h/2}) 
             scale(0.01, 0.01) 
-            translate(${-params.tile.width/2}, ${-params.tile.width/2})
+            translate(${-w/2}, ${-h/2})
         `);
         group.attr({"opacity": "0"});
 
@@ -638,9 +645,9 @@ class GraphicsEngine {
             "transform": 
             `
             translate(${pos[0]}, ${pos[1]}) 
-            translate(${params.tile.width/2}, ${params.tile.width/2}) 
+            translate(${w/2}, ${h/2}) 
             scale(1.0, 1.0) 
-            translate(${-params.tile.width/2}, ${-params.tile.width/2})
+            translate(${-w/2}, ${-h/2})
             `,
             "opacity": "1"
         }, 80, mina.easein, ()=>{
@@ -659,9 +666,9 @@ class GraphicsEngine {
                 "transform": 
                 `
                 translate(${object.pos[0]}, ${object.pos[1]}) 
-                translate(${params.tile.width/2}, ${params.tile.width/2}) 
+                translate(${w/2}, ${h/2}) 
                 scale(0.01, 0.01) 
-                translate(${-params.tile.width/2}, ${-params.tile.width/2})
+                translate(${-w/2}, ${-h/2})
                 `,
                 "opacity": "0"
             }, 80, mina.easein, ()=>{

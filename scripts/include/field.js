@@ -13,7 +13,8 @@ class Field {
             tileID: -1,
             tile: null,
             loc: [-1, -1], 
-            bonus: 0 //Default piece, 1 are inverter, 2 are multi-side
+            bonus: 0, //Default piece, 1 are inverter, 2 are multi-side
+            available: true
         };
         this.init();
         
@@ -70,6 +71,8 @@ class Field {
         if (!tile) return false;
 
         let tilei = this.get(lto);
+        if (!tilei.available) return false;
+
         let atile = tilei.tile;
         let piece = tile.possibleMove(lto);
 
@@ -166,7 +169,10 @@ class Field {
         let notOccupied = [];
         for (let i=0;i<this.data.height;i++) {
             for (let j=0;j<this.data.width;j++) {
-                if (!this.fields[i][j].tile) notOccupied.push(this.fields[i][j]);
+                let f = this.get([j, i]);
+                if (!f.tile && f.available) {
+                    notOccupied.push(this.fields[i][j]);
+                }
             }
         }
 
@@ -235,7 +241,8 @@ class Field {
             return this.fields[loc[1]][loc[0]]; //return reference
         }
         return Object.assign({}, this.defaultTilemapInfo, {
-            loc: [loc[0], loc[1]]
+            loc: [loc[0], loc[1]], 
+            available: false
         });
     }
     
@@ -253,10 +260,14 @@ class Field {
         return this;
     }
     
+    isAvailable(lto){
+        return this.get(lto).available;
+    }
+
     move(loc, lto){
         let tile = this.getTile(loc);
         if (loc[0] == lto[0] && loc[1] == lto[1]) return this; //Same location
-        if (this.inside(loc) && this.inside(lto) && tile && !tile.data.moved && tile.possible(lto)){
+        if (this.inside(loc) && this.inside(lto) && this.isAvailable(lto) && tile && !tile.data.moved && tile.possible(lto)){
             let ref = this.get(loc);
             ref.tileID = -1;
             ref.tile = null;

@@ -45,7 +45,7 @@ class Field {
         for (let i=0;i<this.data.height;i++) {
             for (let j=0;j<this.data.width;j++) {
                  for(let tile of this.tiles) {
-                    if(this.possible(tile, [j, i])) anypossible++;
+                    if(tile.possible([j, i])) anypossible++;
                     if(anypossible > 0) return true;
                  }
             }
@@ -59,7 +59,7 @@ class Field {
         if (!tile) return list; //empty
         for (let i=0;i<this.data.height;i++) {
             for (let j=0;j<this.data.width;j++) {
-                if(this.possible(tile, [j, i])) list.push(this.get([j, i]));
+                if(tile.possible([j, i])) list.push(this.get([j, i]));
             }
         }
         return list;
@@ -71,7 +71,7 @@ class Field {
 
         let tilei = this.get(lto);
         let atile = tilei.tile;
-        let piece = tile.possible(lto);
+        let piece = tile.possibleMove(lto);
 
         if (!atile) return piece;
         let possibles = piece;
@@ -256,7 +256,7 @@ class Field {
     move(loc, lto){
         let tile = this.getTile(loc);
         if (loc[0] == lto[0] && loc[1] == lto[1]) return this; //Same location
-        if (this.inside(loc) && this.inside(lto) && tile && !tile.data.moved && this.possible(tile, lto)){
+        if (this.inside(loc) && this.inside(lto) && tile && !tile.data.moved && tile.possible(lto)){
             let ref = this.get(loc);
             ref.tileID = -1;
             ref.tile = null;

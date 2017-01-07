@@ -91,7 +91,7 @@ class Input {
                 }
             } else {
                 let selected = field.get(object.loc);
-                if (selected && selected.tile && selected.tile.loc[0] != -1 && selected != this.selected && !field.possible(this.selected.tile, object.loc) && !(object.loc[0] == this.selected.loc[0] && object.loc[1] == this.selected.loc[1])) {
+                if (selected && selected.tile && selected.tile.loc[0] != -1 && selected != this.selected && (!this.selected.tile || !this.selected.tile.possible(object.loc))) {
                     this.selected = selected;
                     for (let f of this.port.onselect) f(this, this.selected);
                 } else {

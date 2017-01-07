@@ -230,7 +230,7 @@ class Tile {
                     mloc[1] + off[1]
                 ];
 
-                if (!this.field.inside(cloc) || !this.field.possible(this, cloc)) return least;
+                if (!this.field.inside(cloc) || !this.possible(cloc)) return least;
 
                 least[0] = cloc[0];
                 least[1] = cloc[1];
@@ -246,7 +246,7 @@ class Tile {
             let ydir = this.data.side == 0 ? -1 : 1;
             if (dir[1] == ydir){
                 let cloc = [mloc[0] + dir[0], mloc[1] + dir[1]];
-                if(this.field.possible(this, cloc)) return cloc;
+                if(this.possible(cloc)) return cloc;
             }
         } else 
 
@@ -256,7 +256,7 @@ class Tile {
                 Math.abs(dir[0]) == 2 && Math.abs(dir[1]) == 1
             ) {
                 let cloc = [mloc[0] + dir[0], mloc[1] + dir[1]];
-                if(this.field.possible(this, cloc)) return cloc;
+                if(this.possible(cloc)) return cloc;
             }
         } else 
 
@@ -288,7 +288,7 @@ class Tile {
         if (this.data.piece == 5) { //King
             if (Math.abs(dir[0]) <= 1 && Math.abs(dir[1]) <= 1) {
                 let cloc = [mloc[0] + dir[0], mloc[1] + dir[1]];
-                if(this.field.possible(this, cloc)) return cloc;
+                if(this.possible(cloc)) return cloc;
             }
         }
 
@@ -300,9 +300,11 @@ class Tile {
 
 
 
-
-
     possible(loc){
+        return this.field.possible(this, loc);
+    }
+
+    possibleMove(loc){
         let mloc = this.data.loc;
         if (mloc[0] == loc[0] && mloc[1] == loc[1]) return false;
 

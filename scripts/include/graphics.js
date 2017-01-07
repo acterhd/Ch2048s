@@ -1,25 +1,21 @@
 "use strict";
 
 let iconset = [
-    "icons/WhitePawn.png",
-    "icons/WhiteKnight.png",
-    "icons/WhiteBishop.png",
-    "icons/WhiteRook.png",
-    "icons/WhiteQueen.png",
-    "icons/WhiteKing.png"
+    "icons/WhitePawn.svg",
+    "icons/WhiteKnight.svg",
+    "icons/WhiteBishop.svg",
+    "icons/WhiteRook.svg",
+    "icons/WhiteQueen.svg",
+    "icons/WhiteKing.svg"
 ];
 
 let iconsetBlack = [
-    "icons/BlackPawn.png",
-    "icons/BlackKnight.png",
-    "icons/BlackBishop.png",
-    "icons/BlackRook.png",
-    "icons/BlackQueen.png",
-    "icons/BlackKing.png"
-];
-
-let bonuses = [
-    "icons/Inverse.png"
+    "icons/BlackPawn.svg",
+    "icons/BlackKnight.svg",
+    "icons/BlackBishop.svg",
+    "icons/BlackRook.svg",
+    "icons/BlackQueen.svg",
+    "icons/BlackKing.svg"
 ];
 
 Snap.plugin(function (Snap, Element, Paper, glob) {
@@ -616,7 +612,7 @@ class GraphicsEngine {
             radius, radius
         );
 
-        let fillsizew = params.tile.width  * (0.5 - 0.2);
+        let fillsizew = params.tile.width  * (0.5 - 0.125);
         let fillsizeh = fillsizew;//params.tile.height * (1.0 - 0.2);
 
         let icon = s.image(

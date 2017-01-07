@@ -86,7 +86,7 @@ class Input {
         let h = params.tile.height + border;
 
         let area = interactive.object.rect(0, 0, w, h).transform(
-            `translate(${pos[0] - border/2}, ${pos[1] - border/2}`
+            `translate(${pos[0] - border/2}, ${pos[1] - border/2})`
         ).click(()=>{
             if (!this.selected) {
                 let selected = field.get(object.loc);

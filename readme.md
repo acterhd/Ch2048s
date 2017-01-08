@@ -9,8 +9,8 @@ This is game, inspired and cloned from [2048](https://github.com/gabrielecirulli
 
 ## Playable version
 
-[Here](https://acterhd.github.io/ch2048s/)
-[Hexagonal](https://github.com/acterhd/hex2048s)
++ [Here](https://acterhd.github.io/ch2048s/)
++ [Hexagonal](https://github.com/acterhd/hex2048s)
 
 ## License
 

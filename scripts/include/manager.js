@@ -46,18 +46,14 @@ class Manager {
         };
 
         let aftermove = (tile)=>{
-            let c = this.data.absorbed ? 0 : 1;
-            //let c = 1;
+            let c = 1;
+            let p = this.data.absorbed ? 0.25 : 1.0;
             for(let i=0;i<c;i++){
-                //if(Math.random() < 0.3333) this.field.generateTile();
-                if(Math.random() < 1.0) this.field.generateTile();
-                //if(Math.random() < 0.6666) this.field.generateTile();
+                if(Math.random() < p) this.field.generateTile();
             }
             this.data.absorbed = false;
 
-            while(!this.field.anyPossible()) { //2048
-            //while(!this.field.anyPossible() || !(this.field.checkAny(2, 2, -1) || this.field.checkAny(4, 2, -1))) { //Classic
-            //while(!this.field.anyPossible() || !(this.field.checkAny(1, 1, -1) || this.field.checkAny(2, 1, -1))) { //Thress
+            while(!this.field.anyPossible()) {
                 if (!this.field.generateTile()) break;
             }
             if (!this.field.anyPossible()) this.graphic.showGameover();

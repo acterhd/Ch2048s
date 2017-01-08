@@ -46,12 +46,12 @@ class Manager {
         };
 
         let aftermove = (tile)=>{
-            //let c = this.data.absorbed ? 1 : 2;
-            let c = 1;
+            let c = this.data.absorbed ? 0 : 1;
+            //let c = 1;
             for(let i=0;i<c;i++){
                 //if(Math.random() < 0.3333) this.field.generateTile();
-                //if(Math.random() < 1.0) this.field.generateTile();
-                if(Math.random() < 0.6666) this.field.generateTile();
+                if(Math.random() < 1.0) this.field.generateTile();
+                //if(Math.random() < 0.6666) this.field.generateTile();
             }
             this.data.absorbed = false;
 

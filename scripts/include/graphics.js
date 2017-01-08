@@ -1,21 +1,21 @@
 "use strict";
 
 let iconset = [
-    "icons/WhitePawn.svg",
-    "icons/WhiteKnight.svg",
-    "icons/WhiteBishop.svg",
-    "icons/WhiteRook.svg",
-    "icons/WhiteQueen.svg",
-    "icons/WhiteKing.svg"
+    "icons/WhitePawn.png",
+    "icons/WhiteKnight.png",
+    "icons/WhiteBishop.png",
+    "icons/WhiteRook.png",
+    "icons/WhiteQueen.png",
+    "icons/WhiteKing.png"
 ];
 
 let iconsetBlack = [
-    "icons/BlackPawn.svg",
-    "icons/BlackKnight.svg",
-    "icons/BlackBishop.svg",
-    "icons/BlackRook.svg",
-    "icons/BlackQueen.svg",
-    "icons/BlackKing.svg"
+    "icons/BlackPawn.png",
+    "icons/BlackKnight.png",
+    "icons/BlackBishop.png",
+    "icons/BlackRook.png",
+    "icons/BlackQueen.png",
+    "icons/BlackKing.png"
 ];
 
 Snap.plugin(function (Snap, Element, Paper, glob) {

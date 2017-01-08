@@ -1,0 +1,12 @@
+inkscape blackBishop.svg --export-png=blackBishop.png -d 240
+inkscape blackKing.svg --export-png=blackKing.png -d 240
+inkscape blackKnight.svg --export-png=blackKnight.png -d 240
+inkscape blackPawn.svg --export-png=blackPawn.png -d 240
+inkscape blackQueen.svg --export-png=blackQueen.png -d 240
+inkscape blackRook.svg --export-png=blackRook.png -d 240
+inkscape whiteBishop.svg --export-png=whiteBishop.png -d 240
+inkscape whiteKing.svg --export-png=whiteKing.png -d 240
+inkscape whiteKnight.svg --export-png=whiteKnight.png -d 240
+inkscape whitePawn.svg --export-png=whitePawn.png -d 240
+inkscape whiteQueen.svg --export-png=whiteQueen.png -d 240
+inkscape whiteRook.svg --export-png=whiteRook.png -d 240

@@ -31,7 +31,8 @@ class Manager {
             score: 0,
             movecounter: 0,
             absorbed: 0, 
-            conditionValue: 2048
+            conditionValue: 2048, 
+            accumulated: 0
             //conditionValue: 12288 //Threes-like
         };
         this.states = [];
@@ -46,8 +47,13 @@ class Manager {
         };
 
         let aftermove = (tile)=>{
-            let c = 1;
-            let p = this.data.absorbed ? 0.25 : 1.0;
+            let c = 0;
+            this.data.accumulated++;
+            if (!this.data.absorbed) {
+                c = 1; this.data.accumulated = 0;
+            }
+
+            let p = 1.0;
             for(let i=0;i<c;i++){
                 if(Math.random() < p) this.field.generateTile();
             }
@@ -172,6 +178,7 @@ class Manager {
         };
         state.score = this.data.score;
         state.victory = this.data.victory;
+        state.accumulated = this.data.accumulated;
         for(let tile of this.field.tiles){
             state.tiles.push({
                 loc: tile.data.loc.concat([]), 
@@ -198,6 +205,7 @@ class Manager {
         this.field.init();
         this.data.score = state.score;
         this.data.victory = state.victory;
+        this.data.accumulated = state.accumulated;
 
         for(let tdat of state.tiles) {
             let tile = new Tile();

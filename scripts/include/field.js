@@ -137,25 +137,23 @@ class Field {
         return true;
     }
 
-    genPiece(exceptPawn){
-        //return 3; //Debug
-
+    genPiece(exceptPawn) {
         let pawnr = Math.random();
-        if (pawnr < 0.4 && !exceptPawn) {
+        if (pawnr < 0.6 && !exceptPawn) {
             return 0;
         }
 
         let rnd = Math.random();
-        if(rnd >= 0.0 && rnd < 0.3){
+        if(rnd >= 0.0 && rnd < 0.3) {
             return 1;
         } else 
-        if(rnd >= 0.3 && rnd < 0.6){
+        if(rnd >= 0.3 && rnd < 0.6) {
             return 2;
         } else 
-        if(rnd >= 0.6 && rnd < 0.8){
+        if(rnd >= 0.6 && rnd < 0.8) {
             return 3;
         } else 
-        if(rnd >= 0.8 && rnd < 0.9){
+        if(rnd >= 0.8 && rnd < 0.9) {
             return 4;
         }
         return 5;

@@ -144,10 +144,10 @@ class Field {
         }
 
         let rnd = Math.random();
-        if(rnd >= 0.0 && rnd < 0.3) {
+        if(rnd >= 0.0 && rnd < 0.2) {
             return 1;
         } else 
-        if(rnd >= 0.3 && rnd < 0.6) {
+        if(rnd >= 0.2 && rnd < 0.6) {
             return 2;
         } else 
         if(rnd >= 0.6 && rnd < 0.8) {
@@ -180,8 +180,8 @@ class Field {
             tile.data.bonus = 0;
             tile.data.side = Math.random() < 0.5 ? 1 : 0;
 
-            let bcheck = this.checkAny(tile.data.value, 1, 1);
-            let wcheck = this.checkAny(tile.data.value, 1, 0);
+            let bcheck = true;//this.checkAny(tile.data.value, 1, 1);
+            let wcheck = true;//this.checkAny(tile.data.value, 1, 0);
             if (bcheck && wcheck || !bcheck && !wcheck) {
                 tile.data.side = Math.random() < 0.5 ? 1 : 0;
             } else 

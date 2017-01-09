@@ -150,10 +150,10 @@ class Field {
         if(rnd >= 0.2 && rnd < 0.6) {
             return 2;
         } else 
-        if(rnd >= 0.6 && rnd < 0.8) {
+        if(rnd >= 0.6 && rnd < 0.9) {
             return 3;
         } else 
-        if(rnd >= 0.8 && rnd < 0.9) {
+        if(rnd >= 0.9 && rnd < 0.95) {
             return 4;
         }
         return 5;

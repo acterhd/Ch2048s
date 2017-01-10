@@ -192,9 +192,11 @@ class Tile {
         if (this.data.piece == 0){
             if (this.data.loc[1] >= this.field.data.height-1 && this.data.side == 1) {
                 this.data.piece = this.field.genPiece(true);
+                if (!this.data.moved) this.data.side = 0; //Anti-side
             }
             if (this.data.loc[1] <= 0 && this.data.side == 0) {
                 this.data.piece = this.field.genPiece(true);
+                if (!this.data.moved) this.data.side = 1; //Anti-side
             }
         }
         return this;

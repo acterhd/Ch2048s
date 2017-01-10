@@ -138,7 +138,7 @@ class Field {
     }
 
     genPiece(exceptPawn) {
-        if (Math.random() < 8/16 && !exceptPawn) {
+        if (!exceptPawn) {
             return 0;
         }
         if (Math.random() < 2/8) {

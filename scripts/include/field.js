@@ -137,8 +137,10 @@ class Field {
         return true;
     }
 
-    genPiece(exceptPawn) {
-        if (!exceptPawn) {
+
+
+    genPiece(side, exceptPawn) {
+        if (Math.random() < 8/16 && !exceptPawn) {
             return 0;
         }
         if (Math.random() < 2/8) {
@@ -172,10 +174,11 @@ class Field {
         }
 
         if(notOccupied.length > 0){
-            tile.data.piece = this.genPiece();
+            tile.data.side = Math.random() < 0.5 ? 1 : 0;
+            tile.data.piece = this.genPiece(tile.data.side);
             tile.data.value = Math.random() < 0.1 ? 4 : 2;
             tile.data.bonus = 0;
-            tile.data.side = Math.random() < 0.5 ? 1 : 0;
+            
 
             let bcheck = true;//this.checkAny(tile.data.value, 1, 1);
             let wcheck = true;//this.checkAny(tile.data.value, 1, 0);

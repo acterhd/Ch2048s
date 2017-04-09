@@ -50,12 +50,12 @@ class Manager {
             let c = 0;
             this.data.accumulated++;
             if (!this.data.absorbed) {
-                c = 1; this.data.accumulated = 0;
+                c = Math.round(Math.random() * 1) + 1; 
+                this.data.accumulated = 0;
             }
 
-            let p = 1.0;
             for(let i=0;i<c;i++){
-                if(Math.random() < p) this.field.generateTile();
+                this.field.generateTile();
             }
             this.data.absorbed = false;
 
